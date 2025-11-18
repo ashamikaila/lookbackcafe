@@ -30,13 +30,13 @@
                         <a href="#">HOUSE SPECIALS</a>
                     </div>
                 </li>
-                <li><a href="#">About</a></li>
+                <li><a href="about.php">About</a></li>
                 <li class="dropdown">
                     <a href="#" id="contact-toggle">Contact</a>
                     <div class="dropdown-content" id="contact-dropdown">
                         <h1>Contact Us</h1>
-                        <a href="#">CONTACT</a>
-                        <a href="#">FAQs</a>
+                        <a href="contact.php">CONTACT</a>
+                        <a href="faqs.php">FAQs</a>
                     </div>
                 </li>
             </ul>

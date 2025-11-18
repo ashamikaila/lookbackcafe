@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: 'Red Hat Display', 'League Spartan', 'Montserrat', sans-serif;
     font-size: 18px;
+    scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
@@ -134,7 +135,6 @@ body {
 .contact-image {
     width: 100%;
     max-width: 900px;
-    border-radius: 10px;
 }
 
 .contact-address {
@@ -210,7 +210,6 @@ body {
     max-width: 900px;
     height: 450px;
     border: none;
-    border-radius: 12px;
 }
 
 

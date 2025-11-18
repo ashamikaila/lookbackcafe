@@ -16,7 +16,7 @@
             <ul class="nav-links">
                 <li><a href="main.php">Home</a></li>
                 <li class="dropdown">
-                    <a href="menu.php" id="menu-toggle">Menu</a>
+                    <a href="#" id="menu-toggle">Menu</a>
                     <div class="dropdown-content" id="menu-dropdown">
                         <h1>Menu</h1>
                         <a href="#">ESPRESSO SERIES</a>

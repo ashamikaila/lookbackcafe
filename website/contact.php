@@ -19,7 +19,7 @@
     <ul class="nav-links">
         <li><a href="main.php">Home</a></li>
         <li class="dropdown">
-            <a href="menu.php" id="menu-toggle">Menu</a>
+            <a href="#" id="menu-toggle">Menu</a>
             <div class="dropdown-content" id="menu-dropdown">
                 <h1>Menu</h1>
                 <a href="#">ESPRESSO SERIES</a>
@@ -29,12 +29,12 @@
                 <a href="#">MILKSHARE SERIES</a>
                 <a href="#">SNACKS & WAFFLES</a>
                 <a href="#">RICE MEAL</a>
-                <a href="#">HOUSE SPECIALS</a>
+                <a href="#">HOUSE SPECIALS</a>                     
             </div>
         </li>
         <li><a href="about.php">About</a></li>
         <li class="dropdown">
-            <a href="contact.php" id="contact-toggle">Contact</a>
+            <a href="#" id="contact-toggle">Contact</a>
             <div class="dropdown-content" id="contact-dropdown">
                 <h1>Contact Us</h1>
                 <a href="contact.php">CONTACT</a>

@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: 'Red Hat Display', 'League Spartan', 'Montserrat', sans-serif;
     font-size: 18px;
+    scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
@@ -252,17 +253,6 @@ body {
 
 .mot-special {
     height: 600px;
-    width: 100%;
-    background: linear-gradient(rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.8)), url("../img/HOMEPAGE/monthlyspecials/specialbg.png");
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mot-special {
     width: 100%;
     padding: 60px 0;
     background: linear-gradient(rgba(255, 255, 255, 0.8),
