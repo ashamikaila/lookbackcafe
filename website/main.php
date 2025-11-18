@@ -9,14 +9,35 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>Look Back Café</title>
         <link rel="stylesheet" href="../resources/css/style.css">
+        <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
         <nav class="nav">
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Menu</a></li>
+                <li class="dropdown">
+                    <a href="#" id="menu-toggle">Menu</a>
+                    <div class="dropdown-content" id="menu-dropdown">
+                        <h1>Menu</h1>
+                        <a href="#">ESPRESSO SERIES</a>
+                        <a href="#">VIETNAMESE SERIES</a>
+                        <a href="#">NON-COFFEE SERIES</a>
+                        <a href="#">SODA SERIES</a>
+                        <a href="#">MILKSHARE SERIES</a>
+                        <a href="#">SNACKS & WAFFLES</a>
+                        <a href="#">RICE MEAL</a>
+                        <a href="#">HOUSE SPECIALS</a>
+                    </div>
+                </li>
                 <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li class="dropdown">
+                    <a href="#" id="contact-toggle">Contact</a>
+                    <div class="dropdown-content" id="contact-dropdown">
+                        <h1>Contact Us</h1>
+                        <a href="#">CONTACT</a>
+                        <a href="#">FAQs</a>
+                    </div>
+                </li>
             </ul>
             <div class="logo">
                 <img src="../resources/img/logo.jpg" alt="">
@@ -111,5 +132,6 @@
                 </div>
             </div>
         </footer>
+    <script src="../resources/js/script.js"></script>
     </body>
 </html>
