@@ -7,8 +7,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café</title>
+        <title>Look Back Café | Frequently Asked Questions</title>
         <link rel="stylesheet" href="../resources/css/style.css">
+        <link rel="stylesheet" href="../resources/css/faqs.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
@@ -16,7 +17,7 @@
             <ul class="nav-links">
                 <li><a href="main.php">Home</a></li>
                 <li class="dropdown">
-                    <a href="menu.php" id="menu-toggle">Menu</a>
+                    <a href="#" id="menu-toggle">Menu</a>
                     <div class="dropdown-content" id="menu-dropdown">
                         <h1>Menu</h1>
                         <a href="#">ESPRESSO SERIES</a>
@@ -29,13 +30,13 @@
                         <a href="#">HOUSE SPECIALS</a>
                     </div>
                 </li>
-                <li><a href="about.php">About</a></li>
+                <li><a href="#">About</a></li>
                 <li class="dropdown">
                     <a href="#" id="contact-toggle">Contact</a>
                     <div class="dropdown-content" id="contact-dropdown">
                         <h1>Contact Us</h1>
-                        <a href="contact.php">CONTACT</a>
-                        <a href="faqs.php">FAQs</a>
+                        <a href="#">CONTACT</a>
+                        <a href="#">FAQs</a>
                     </div>
                 </li>
             </ul>
@@ -47,59 +48,42 @@
                 <h2><a href="">Register</a></h2>
             </div>
         </nav>
-        <section class="home">
-            <div class="video">
-                <video src="../resources/img/HOMEPAGE/Copy of Look Back Cafe Menu.mp4" autoplay loop muted></video>
-            </div>
-            <div class="welcome">
-                <div>
-                    <h1>Welcome to Look Back Café!</h1>
-                    <div class="w-p">
-                        <p>We serve moments and</p>
-                        <p>create memories beyond</p>
-                        <p>beans and brews.</p>
-                    </div>
-                    <a href="menu.php" class="btn">Menu</a>
-                </div>
-            </div>
-            <div class="about">
-                <div>
-                    <h1>All About Look Back Café!</h1>
-                    <a href="about.php" class="btn">OUR STORY</a>
-                </div>
-            </div>
-            <div class="memo">
-                <div>
-                    <h1>A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We’re so grateful for your support!</h1>
-                </div>
-                <div class="gallery-container">
-                    <div class="scrolling-gallery" id="gallery">
-                        <?php
-                        $totalImages = 6; // number of unique images
-                        $duplicates = 6;  // how many times to repeat for seamless scrolling
+    <section class="terms-container">
+        <h1 class="terms-title">FREQUENTLY ASKED QUESTIONS</h1>
 
-                        for ($d = 0; $d < $duplicates; $d++) {
-                            for ($i = 1; $i <= $totalImages; $i++) {
-                                echo '<div class="image-item">';
-                                echo '<img src="../resources/img/HOMEPAGE/photowall/photowall' . $i . '.png" alt="">';
-                                echo '</div>';
-                            }
-                        }
-                        ?>
-                    </div>
-                    <p>This photo wall will be updated weekly.</p>
-                </div>
-            </div>
-            <div class="mot-special">
-                <div>
-                    <h1>SPECIAL OFFERS</h1>
-                </div>
-                <div class="special">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special1.jpg" alt="">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special2.png" alt="">
-                </div>
-            </div>
-        </section>
+        <h2 class="section-title">1. What are your opening hours?</h2>
+        <p class="terms-text">
+            Our typical hours are:<br>
+            Monday–Saturday: 8:00 AM – 8:00 PM<br>
+            Sunday & Holidays: 10:00 AM – 8:00 PM
+        </p>
+
+        <h2 class="section-title">2. Where are you located?</h2>
+        <p class="terms-text">
+            Look Back Café is located in front of CEU Malolos Gate 3, Mac Arthur Highway, Longos, Malolos, Bulacan.
+        </p>
+
+        <h2 class="section-title">3. Do you offer Wi-Fi?</h2>
+        <p class="terms-text">
+            Yes—free, high-speed Wi-Fi is available for all guests. Just ask the staff for the password.
+        </p>
+
+        <h2 class="section-title">4. Do you deliver?</h2>
+        <p class="terms-text">
+            Yes, we deliver! We offer delivery for a minimum purchase of ₱499. Simply message us directly on our page to place your order. Delivery fees start at ₱50, depending on your location.
+        </p>
+
+        <h2 class="section-title">5. Do you accept advance orders or bulk orders?</h2>
+        <p class="terms-text">
+            Yes, we do! You can place an advance order by messaging our Facebook page with your details. For bulk orders, we recommend placing your order ahead of time and including the specific date and time needed so we can prepare everything properly.
+        </p>
+
+        <h2 class="section-title">6. How much is your private space?</h2>
+        <p class="terms-text">
+            Our private space is free to use with a minimum ₱1,000 consumable purchase good for 1 hour. If you wish to extend, you may add ₱500 worth of items for every additional 30 minutes.
+        </p>
+    </section>
+
         <footer>
             <div class="footer-grid">
                 <div class="stay">
@@ -111,12 +95,9 @@
                         <p>By submitting, you agree to our Privacy Policy and Terms & Conditions.</p>
                         <p>You can unsubscribe at any time if you change your mind.</p>
                         <div class="socials">
-                            <a href="https://www.facebook.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
-                            <i class="fa-brands fa-tiktok"></i></a> 
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-tiktok"></i>
                         </div>
                         <div class="logo" style="margin-left: -10px;">
                             <img src="../resources/img/logo.jpg" alt="">

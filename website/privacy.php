@@ -7,8 +7,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café</title>
+        <title>Look Back Café | Privacy Policy</title>
         <link rel="stylesheet" href="../resources/css/style.css">
+        <link rel="stylesheet" href="../resources/css/privacy.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
@@ -16,7 +17,7 @@
             <ul class="nav-links">
                 <li><a href="main.php">Home</a></li>
                 <li class="dropdown">
-                    <a href="menu.php" id="menu-toggle">Menu</a>
+                    <a href="#" id="menu-toggle">Menu</a>
                     <div class="dropdown-content" id="menu-dropdown">
                         <h1>Menu</h1>
                         <a href="#">ESPRESSO SERIES</a>
@@ -29,13 +30,13 @@
                         <a href="#">HOUSE SPECIALS</a>
                     </div>
                 </li>
-                <li><a href="about.php">About</a></li>
+                <li><a href="#">About</a></li>
                 <li class="dropdown">
                     <a href="#" id="contact-toggle">Contact</a>
                     <div class="dropdown-content" id="contact-dropdown">
                         <h1>Contact Us</h1>
-                        <a href="contact.php">CONTACT</a>
-                        <a href="faqs.php">FAQs</a>
+                        <a href="#">CONTACT</a>
+                        <a href="#">FAQs</a>
                     </div>
                 </li>
             </ul>
@@ -47,59 +48,65 @@
                 <h2><a href="">Register</a></h2>
             </div>
         </nav>
-        <section class="home">
-            <div class="video">
-                <video src="../resources/img/HOMEPAGE/Copy of Look Back Cafe Menu.mp4" autoplay loop muted></video>
-            </div>
-            <div class="welcome">
-                <div>
-                    <h1>Welcome to Look Back Café!</h1>
-                    <div class="w-p">
-                        <p>We serve moments and</p>
-                        <p>create memories beyond</p>
-                        <p>beans and brews.</p>
-                    </div>
-                    <a href="menu.php" class="btn">Menu</a>
-                </div>
-            </div>
-            <div class="about">
-                <div>
-                    <h1>All About Look Back Café!</h1>
-                    <a href="about.php" class="btn">OUR STORY</a>
-                </div>
-            </div>
-            <div class="memo">
-                <div>
-                    <h1>A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We’re so grateful for your support!</h1>
-                </div>
-                <div class="gallery-container">
-                    <div class="scrolling-gallery" id="gallery">
-                        <?php
-                        $totalImages = 6; // number of unique images
-                        $duplicates = 6;  // how many times to repeat for seamless scrolling
 
-                        for ($d = 0; $d < $duplicates; $d++) {
-                            for ($i = 1; $i <= $totalImages; $i++) {
-                                echo '<div class="image-item">';
-                                echo '<img src="../resources/img/HOMEPAGE/photowall/photowall' . $i . '.png" alt="">';
-                                echo '</div>';
-                            }
-                        }
-                        ?>
-                    </div>
-                    <p>This photo wall will be updated weekly.</p>
-                </div>
-            </div>
-            <div class="mot-special">
-                <div>
-                    <h1>SPECIAL OFFERS</h1>
-                </div>
-                <div class="special">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special1.jpg" alt="">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special2.png" alt="">
-                </div>
-            </div>
-        </section>
+<section class="terms-container">
+    <h1 class="terms-title">Privacy Policy</h1>
+
+    <p class="terms-text">
+        Look Back Café Online values your privacy. This policy explains what information we collect, how we use it, how we protect it, and your rights as a user. We follow the Data Privacy Act of 2012 (RA 10173) and basic security practices to keep your data safe.
+    </p>
+
+    <h2 class="section-title">1. Information We Collect</h2>
+    <p class="terms-text">We only collect the information needed for the website to work properly.</p>
+
+    <p class="terms-text"><b>Personal Information:</b></p>
+    <ul class="terms-list">
+        <li>Name</li>
+        <li>Email</li>
+        <li>Username and encrypted password</li>
+    </ul>
+
+    <p class="terms-text"><b>System & Browsing Data:</b></p>
+    <ul class="terms-list">
+        <li>Login details</li>
+        <li>Basic device or session information</li>
+        <li>Activity logs (admin use only)</li>
+    </ul>
+
+    <p class="terms-text"><b>Public Data Shown on the Website:</b></p>
+    <ul class="terms-list">
+        <li>Menu items</li>
+        <li>Prices, photos</li>
+        <li>Promotions and café information</li>
+    </ul>
+
+    <h2 class="section-title">2. How We Use Your Information</h2>
+    <p class="terms-text">Your data may be used to:</p>
+    <ul class="terms-list">
+        <li>Create and manage your account</li>
+        <li>Allow you to view menus and promos</li>
+        <li>Send optional email updates (only if you subscribe)</li>
+        <li>Improve security and website performance</li>
+        <li>To comply with legal or regulatory requirements</li>
+    </ul>
+    <p class="terms-text">We do not sell or rent your personal information to third parties.</p>
+
+    <h2 class="section-title">3. Data Security</h2>
+    <p class="terms-text">
+        Passwords stored securely using encryption. Look Back Café applies reasonable security measures to protect your personal data, but no system is 100% secure. By using our website, you acknowledge and accept these inherent risks.
+    </p>
+
+    <h2 class="section-title">4. Your Rights</h2>
+    <p class="terms-text">
+        You may request access to, correction of, or deletion of your personal data. You may opt out of marketing emails by clicking “Unsubscribe” in our emails.
+    </p>
+
+    <h2 class="section-title">5. Contact Us</h2>
+    <p class="terms-text">
+        For privacy-related concerns, contact us at <b>lookbackcafe.25@gmail.com</b>
+    </p>
+</section>
+
         <footer>
             <div class="footer-grid">
                 <div class="stay">
@@ -111,12 +118,9 @@
                         <p>By submitting, you agree to our Privacy Policy and Terms & Conditions.</p>
                         <p>You can unsubscribe at any time if you change your mind.</p>
                         <div class="socials">
-                            <a href="https://www.facebook.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
-                            <i class="fa-brands fa-tiktok"></i></a> 
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-tiktok"></i>
                         </div>
                         <div class="logo" style="margin-left: -10px;">
                             <img src="../resources/img/logo.jpg" alt="">

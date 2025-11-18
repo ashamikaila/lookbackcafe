@@ -7,8 +7,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café</title>
+        <title>Look Back Café | About</title>
         <link rel="stylesheet" href="../resources/css/style.css">
+        <link rel="stylesheet" href="../resources/css/about.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
@@ -16,7 +17,7 @@
             <ul class="nav-links">
                 <li><a href="main.php">Home</a></li>
                 <li class="dropdown">
-                    <a href="menu.php" id="menu-toggle">Menu</a>
+                    <a href="#" id="menu-toggle">Menu</a>
                     <div class="dropdown-content" id="menu-dropdown">
                         <h1>Menu</h1>
                         <a href="#">ESPRESSO SERIES</a>
@@ -29,13 +30,13 @@
                         <a href="#">HOUSE SPECIALS</a>
                     </div>
                 </li>
-                <li><a href="about.php">About</a></li>
+                <li><a href="#">About</a></li>
                 <li class="dropdown">
                     <a href="#" id="contact-toggle">Contact</a>
                     <div class="dropdown-content" id="contact-dropdown">
                         <h1>Contact Us</h1>
-                        <a href="contact.php">CONTACT</a>
-                        <a href="faqs.php">FAQs</a>
+                        <a href="#">CONTACT</a>
+                        <a href="#">FAQs</a>
                     </div>
                 </li>
             </ul>
@@ -47,59 +48,41 @@
                 <h2><a href="">Register</a></h2>
             </div>
         </nav>
-        <section class="home">
-            <div class="video">
-                <video src="../resources/img/HOMEPAGE/Copy of Look Back Cafe Menu.mp4" autoplay loop muted></video>
-            </div>
-            <div class="welcome">
-                <div>
-                    <h1>Welcome to Look Back Café!</h1>
-                    <div class="w-p">
-                        <p>We serve moments and</p>
-                        <p>create memories beyond</p>
-                        <p>beans and brews.</p>
-                    </div>
-                    <a href="menu.php" class="btn">Menu</a>
-                </div>
-            </div>
-            <div class="about">
-                <div>
-                    <h1>All About Look Back Café!</h1>
-                    <a href="about.php" class="btn">OUR STORY</a>
-                </div>
-            </div>
-            <div class="memo">
-                <div>
-                    <h1>A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We’re so grateful for your support!</h1>
-                </div>
-                <div class="gallery-container">
-                    <div class="scrolling-gallery" id="gallery">
-                        <?php
-                        $totalImages = 6; // number of unique images
-                        $duplicates = 6;  // how many times to repeat for seamless scrolling
 
-                        for ($d = 0; $d < $duplicates; $d++) {
-                            for ($i = 1; $i <= $totalImages; $i++) {
-                                echo '<div class="image-item">';
-                                echo '<img src="../resources/img/HOMEPAGE/photowall/photowall' . $i . '.png" alt="">';
-                                echo '</div>';
-                            }
-                        }
-                        ?>
-                    </div>
-                    <p>This photo wall will be updated weekly.</p>
-                </div>
-            </div>
-            <div class="mot-special">
-                <div>
-                    <h1>SPECIAL OFFERS</h1>
-                </div>
-                <div class="special">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special1.jpg" alt="">
-                    <img src="../resources/img/HOMEPAGE/monthlyspecials/special2.png" alt="">
-                </div>
-            </div>
-        </section>
+        <div class="cafe-about-page">
+      <div class="ABOUT">
+        <div class="header-image"></div>
+        <div class="nav-decoration">
+          <div class="text"></div>
+        </div>
+        <div class="footer-wrapper">
+          <div class="vector-wrapper"><img class="footer-image" src="img/image.svg" /></div>
+        </div>
+        <div class="footer-icon"></div>
+        <div class="about-image-1"><img src="../resources/img/ABOUT/about1.png" alt="About Look Back Café 1"></div>
+        <div class="about-image-2"><img src="../resources/img/ABOUT/about2.png" alt="About Look Back Café 2"></div>
+        <div class="about-image-3"><img src="../resources/img/ABOUT/about3.png" alt="About Look Back Café 3"></div>
+        <div class="about-image-4"><img src="../resources/img/ABOUT/about4.png" alt="About Look Back Café 4"></div>
+        <div class="about-image-5"><img src="../resources/img/ABOUT/about5.png" alt="About Look Back Café 5"></div>
+        <p class="about-description">
+          <span class="text-wrapper">
+
+          </span>
+          <span class="span"
+            >Established in 2023, Look Back Café offers a warm and inviting atmosphere perfect for savoring life's simple
+            pleasures. From our carefully brewed coffee and freshly baked pastries to our hearty, comforting meals,
+            every detail is crafted to enhance your experience and make each visit memorable.<br /><br />
+            We believe that the magic happens in the small things—the friendly smile from our barista, the cozy nook
+            where you can curl up with a good book, or the laughter shared over a delicious meal. Our space is designed
+            to be a backdrop for your stories, where fleeting moments become cherished memories.<br /><br />&nbsp;&nbsp;Welcome
+            to Look Back Café!</span
+          >
+        </p>
+        <p class="about-title"><b>All About Look Back Café</b></p>
+      </div>
+    </div>
+  </body>
+    
         <footer>
             <div class="footer-grid">
                 <div class="stay">
@@ -111,12 +94,9 @@
                         <p>By submitting, you agree to our Privacy Policy and Terms & Conditions.</p>
                         <p>You can unsubscribe at any time if you change your mind.</p>
                         <div class="socials">
-                            <a href="https://www.facebook.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/lookbackcafe/" target="_blank">
-                            <i class="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
-                            <i class="fa-brands fa-tiktok"></i></a> 
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-tiktok"></i>
                         </div>
                         <div class="logo" style="margin-left: -10px;">
                             <img src="../resources/img/logo.jpg" alt="">
