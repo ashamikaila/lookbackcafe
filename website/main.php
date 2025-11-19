@@ -19,7 +19,7 @@
                     <a href="#" id="menu-toggle">Menu</a>
                     <div class="dropdown-content" id="menu-dropdown">
                         <h1>Menu</h1>
-                        <a href="#">ESPRESSO SERIES</a>
+                        <a href="espresso.php">ESPRESSO SERIES</a>
                         <a href="#">VIETNAMESE SERIES</a>
                         <a href="#">NON-COFFEE SERIES</a>
                         <a href="#">SODA SERIES</a>
