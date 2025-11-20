@@ -7,8 +7,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café | Espresso Series </title>
-        <link rel="stylesheet" href="../resources/css/espresso.css">
+        <title>Look Back Café | Vietnamese Series</title>
+        <link rel="stylesheet" href="../resources/css/viet.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
@@ -21,7 +21,7 @@
                         <h1>Menu</h1>
                         <a href="espresso.php">ESPRESSO SERIES</a>
                         <a href="viet.php">VIETNAMESE SERIES</a>
-                        <a href="#">NON-COFFEE SERIES</a>
+                        <a href="noncoffee.php">NON-COFFEE SERIES</a>
                         <a href="#">SODA SERIES</a>
                         <a href="#">MILKSHARE SERIES</a>
                         <a href="#">SNACKS & WAFFLES</a>
@@ -49,10 +49,42 @@
         </nav>
 
         <div class="header"></div>
+
+<div class="all-prod">
+    <h1>Menu</h1>
+    <h3>VIETNAMESE SERIES</h3>
+
+    <div class="product-container">
+        <div class="all-prod-img">
+            <img src="../resources/img/MENU/VIET/caramel.jpg" alt="">
+        </div>
+
+        <div class="description">
+            <div class="affogato">
+                <h1>Caramel Vietnamese</h1>
+                <p>Vietnamese coffee infused with smooth caramel notes. <br><br>
+                This delightful beverage combines the bold flavors of dark roast coffee with the sweetness of caramel, creating a perfect balance of bitterness and sweetness. <br><br>
+                Experience the deep, rich aromas and velvety finish that make this coffee a truly indulgent experience. <br><br>
+                Perfect for those who appreciate a touch of sweetness in their daily brew.</p>
+            </div>
+
+            <div class="aff-price">
+                <div>
+                    <h2>95</h2>
+                    <h3>16OZ</h3>
+                </div>
+
+                <div>
+                    <h2>115</h2>
+                    <h3>UPSIZE</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <div class="menu">
-            <h1>Menu</h1>
-            <h3>Welcome to Look Back Café</h3>
-            <h2>SELECTED BEST SELLERS</h2>
             <div>
                 <div class="best-sell">
                     <div class="table">
@@ -61,10 +93,6 @@
                         </div>
                         <h2>Spanish Latte</h2>
                         <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
                             <div>
                                 <p>16 OZ</p>
                                 <p>130</p>
@@ -85,10 +113,6 @@
                         </div>
                         <h2>Breve Latte</h2>
                         <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
                             <div>
                                 <p>16 OZ</p>
                                 <p>130</p>
@@ -154,187 +178,8 @@
                 </div>
             </div>
         </div>
-        <div class="all-prod">
-            <h1>ALL PRODUCTS</h1>
-            <h3>ESPRESSO SERIES</h3>
-            <div>
-                <div class="all-prod-img">
-                    <img src="../resources/img/MENU/ESPRESSO/affogato.jpg" alt="">
-                </div>
-                <div class="description">
-                    <div class="affogato">
-                        <h1>Affogato</h1>
-                        <br>
-                        <p>A delightful dessert that combines rich, creamy vanilla gelato with a shot of freshly brewed espresso. <br>
-                        <br>
-                        The warm coffee cascades over the chilled gelato, creating a perfect balance of temperature and flavor. <br>
-                        <br>
-                        Enjoy this simple yet luxurious treat for an irresistible coffee experience.</p>
-                    </div>
-                    <div class="aff-price">
-                        <h2>145</h2>
-                        <h3>16OZ</h3>
-                    </div>
-                </div>
-            </div>
-        </div> 
-        <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
-                        </div>
-                        <h2>Spanish Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/brevelatte.jpg" alt="">
-                        </div>
-                        <h2>Breve Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
-                        </div>
-                        <h2>Spanish Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
-                        </div>
-                        <h2>Spanish Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
-                        </div>
-                        <h2>Spanish Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/brevelatte.jpg" alt="">
-                        </div>
-                        <h2>Breve Latte</h2>
-                        <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
-                                <p>150</p>
-                            </div>
-                            <div>
-                                <p>1 LITER</p>
-                                <p>210</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="addons">
+
+       <div class="addons">
             <h1>ADD ONS</h1>
 
             <div class="addon-list">
@@ -346,12 +191,14 @@
             <h3>All drinks are subject to availability.</h3>
 
             <div class="pagination">
-                <a href="espresso.php" class="active">1</a>
-                <a href="viet.php">2</a>
+                <a href="espresso.php">1</a>
+                <a href="viet.php" class="active">2</a>
                 <a href="noncoffee.php">3</a>
-                <a href="viet.php" class="next">&gt;</a>
+                <a href="noncoffee.php" class="next">&gt;</a>
             </div>
         </div>
+
+ 
         <footer>
             <div class="footer-grid">
                 <div class="stay">
