@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,41 +19,7 @@
 </head>
 
 <body>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="main.php">Home</a></li>
-            <li class="dropdown">
-                <a href="#" id="menu-toggle">Menu</a>
-                <div class="dropdown-content" id="menu-dropdown">
-                    <h1>Menu</h1>
-                    <a href="#">ESPRESSO SERIES</a>
-                    <a href="#">VIETNAMESE SERIES</a>
-                    <a href="#">NON-COFFEE SERIES</a>
-                    <a href="#">SODA SERIES</a>
-                    <a href="#">MILKSHARE SERIES</a>
-                    <a href="#">SNACKS & WAFFLES</a>
-                    <a href="#">RICE MEAL</a>
-                    <a href="#">HOUSE SPECIALS</a>
-                </div>
-            </li>
-            <li><a href="#">About</a></li>
-            <li class="dropdown">
-                <a href="#" id="contact-toggle">Contact</a>
-                <div class="dropdown-content" id="contact-dropdown">
-                    <h1>Contact Us</h1>
-                    <a href="contact.php">CONTACT</a>
-                    <a href="#">FAQs</a>
-                </div>
-            </li>
-        </ul>
-        <div class="logo">
-            <img src="../resources/img/logo.jpg" alt="">
-        </div>
-        <div class="login-btn">
-            <h2><a href="">Login/</a></h2>
-            <h2><a href="">Register</a></h2>
-        </div>
-    </nav>
+    <?php include 'includes/nav.php'; ?>
 
     <div class="header"></div>
     <div class="mot-special">

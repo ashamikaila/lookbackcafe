@@ -66,6 +66,18 @@
                 svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
+
+        // Show alert if error parameter exists
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error') === '1') {
+                alert('Incorrect Email or Password. Try Again.');
+                // Remove error parameter from URL
+                const url = new URL(window.location);
+                url.searchParams.delete('error');
+                window.history.replaceState({}, '', url);
+            }
+        });
     </script>
 </body>
 </html>

@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,41 +17,7 @@
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
-        <nav class="nav">
-            <ul class="nav-links">
-                <li><a href="main.php">Home</a></li>
-                <li class="dropdown">
-                    <a href="#" id="menu-toggle">Menu</a>
-                    <div class="dropdown-content" id="menu-dropdown">
-                        <h1>Menu</h1>
-                        <a href="espresso.php">ESPRESSO SERIES</a>
-                        <a href="viet.php">VIETNAMESE SERIES</a>
-                        <a href="noncoffee.php">NON-COFFEE SERIES</a>
-                        <a href="soda.php">SODA SERIES</a>
-                        <a href="#">MILKSHAKE SERIES</a>
-                        <a href="#">SNACKS & WAFFLES</a>
-                        <a href="#">RICE MEAL</a>
-                        <a href="#">HOUSE SPECIALS</a>
-                    </div>
-                </li>
-                <li><a href="about.php">About</a></li>
-                <li class="dropdown">
-                    <a href="#" id="contact-toggle">Contact</a>
-                    <div class="dropdown-content" id="contact-dropdown">
-                        <h1>Contact Us</h1>
-                        <a href="contact.php">CONTACT</a>
-                        <a href="faqs.php">FAQs</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="logo">
-                <img src="../resources/img/logo.jpg" alt="">
-            </div>
-            <div class="login-btn">
-                <h2><a href="login_as.php">Login/</a></h2>
-                <h2><a href="register.php">Register</a></h2>
-            </div>
-        </nav>
+        <?php include 'includes/nav.php'; ?>
 
         <div class="header"></div>
 

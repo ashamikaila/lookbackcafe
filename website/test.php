@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -279,33 +284,7 @@
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li class="dropdown">
-                <a href="#" id="menu-toggle">Menu</a>
-                <div class="dropdown-content" id="menu-dropdown">
-                    <a href="#">ESPRESSO SERIES</a>
-                    <a href="#">VIETNAMESE SERIES</a>
-                    <a href="#">NON-COFFEE SERIES</a>
-                    <a href="#">SODA SERIES</a>
-                    <a href="#">MILKSHARE SERIES</a>
-                    <a href="#">SNACKS & WAFFLES</a>
-                    <a href="#">RICE MEAL</a>
-                    <a href="#">HOUSE SPECIALS</a>
-                </div>
-            </li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
-        <div class="logo">
-            <img src="https://via.placeholder.com/180x55/FFFFFF/8B4513?text=lookbox.kcafé" alt="lookbox.kcafé Logo">
-        </div>
-        <div class="login-btn">
-            <h2><a href="">Login/</a></h2>
-            <h2><a href="">Register</a></h2>
-        </div>
-    </nav>
+    <?php include 'includes/nav.php'; ?>
 
     <div class="main-content">
         <div class="hero fade-in">

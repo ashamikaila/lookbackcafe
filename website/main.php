@@ -1,19 +1,7 @@
 <?php
-session_start();
-$isLoggedIn = isset($_SESSION["is_logged_in"]) && $_SESSION["is_logged_in"];
-$userName = $_SESSION["user_name"] ?? "User";
-$userAvatar = $_SESSION["user_avatar"] ?? null;
-
-// Get user initials for avatar
-function getUserInitials($name): string
-{
-    $words = explode(separator: ' ', string: trim(string: $name));
-    if (count(value: $words) >= 2) {
-        return strtoupper(string: substr(string: $words[0], offset: 0, length: 1) . substr(string: $words[1], offset: 0, length: 1));
-    }
-    return strtoupper(string: substr(string: $name, offset: 0, length: 2));
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
-$userInitials = getUserInitials(name: $userName);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,60 +22,7 @@ $userInitials = getUserInitials(name: $userName);
 </head>
 
 <body>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="main.php">Home</a></li>
-            <li class="dropdown">
-                <a href="#" id="menu-toggle">Menu</a>
-                <div class="dropdown-content" id="menu-dropdown">
-                    <h1>Menu</h1>
-                    <a href="espresso.php">ESPRESSO SERIES</a>
-                    <a href="#">VIETNAMESE SERIES</a>
-                    <a href="#">NON-COFFEE SERIES</a>
-                    <a href="#">SODA SERIES</a>
-                    <a href="#">MILKSHAKE SERIES</a>
-                    <a href="#">SNACKS & WAFFLES</a>
-                    <a href="#">RICE MEAL</a>
-                    <a href="#">HOUSE SPECIALS</a>
-                </div>
-            </li>
-            <li><a href="about.php">About</a></li>
-            <li class="dropdown">
-                <a href="#" id="contact-toggle">Contact</a>
-                <div class="dropdown-content" id="contact-dropdown">
-                    <h1>Contact Us</h1>
-                    <a href="contact.php">CONTACT</a>
-                    <a href="faqs.php">FAQs</a>
-                </div>
-            </li>
-        </ul>
-        <div class="logo">
-            <img src="../resources/img/logo.jpg" alt="">
-        </div>
-        <div class="login-btn">
-            <?php if ($isLoggedIn): ?>
-                <!-- Logged in: Show user avatar -->
-                <div class="user-avatar-container">
-                    <div class="user-avatar" onclick="toggleUserMenu()">
-                        <?php if ($userAvatar): ?>
-                            <img src="<?php echo htmlspecialchars($userAvatar); ?>" alt="User Avatar">
-                        <?php else: ?>
-                            <div class="avatar-initials"><?php echo $userInitials; ?></div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="user-menu" id="userMenu">
-                        <p class="user-menu-name"><?php echo htmlspecialchars($userName); ?></p>
-                        <a href="profile.php">Profile</a>
-                        <a href="auth/logout.php">Logout</a>
-                    </div>
-                </div>
-            <?php else: ?>
-                <!-- Not logged in: Show Login/Register -->
-                <h2><a href="login_as.php">Login/</a></h2>
-                <h2><a href="register.php">Register</a></h2>
-            <?php endif; ?>
-        </div>
-    </nav>
+    <?php include 'includes/nav.php'; ?>
     <section class="home">
         <div class="video">
             <video src="../resources/img/HOMEPAGE/Copy of Look Back Cafe Menu.mp4" autoplay loop muted></video>
@@ -179,22 +114,6 @@ $userInitials = getUserInitials(name: $userName);
         </div>
     </footer>
     <script src="../resources/js/script.js"></script>
-    <script>
-        function toggleUserMenu() {
-            const menu = document.getElementById('userMenu');
-            menu.classList.toggle('active');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function (event) {
-            const container = document.querySelector('.user-avatar-container');
-            const menu = document.getElementById('userMenu');
-
-            if (container && !container.contains(event.target)) {
-                menu.classList.remove('active');
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -31,7 +31,7 @@ body {
     display: flex;
     list-style: none;
     align-items: center;
-    font-style: 'Red Hat Display', sans-serif;
+    font-family: 'Red Hat Display', sans-serif;
     text-transform: uppercase;
     gap: 20px;
     transition: 0.15s;
@@ -184,124 +184,6 @@ body {
     font-weight: 800 !important;
 }
 
-footer {
-  height: 400px;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  width: 100%;
-  padding-top: 50px;
-
-}
-
-.stay {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: start;
-}
-
-.stay h1 {
-  font-family: 'League Spartan', sans-serif;
-  font-size: 150%;
-  margin-bottom: 5px;
-}
-
-.stay h3 {
-  font-family: 'Red Hat Display', sans-serif;
-  font-size: 80%;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-
-.stay form input {
-  padding: 10px 20px;
-  width: 350px;
-  border: 3px solid black;
-  margin-right: 50px;
-  font-size: 80%;
-  margin-bottom: 20px;
-}
-
-.stay form button {
-  padding: 10px 20px;
-  width: 200px;
-  background-color: rgba(128, 128, 128, 0.5);
-  border: 3px solid rgba(128, 128, 128, 0);
-  color: white;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 80%;
-  cursor: pointer;
-}
-
-.stay form p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 60%;
-  color: black;
-  margin-top: 5px;
-}
-
-.socials {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.socials i {
-  color: black;
-  font-size: 150%;
-  cursor: pointer;
-  margin-right: 20px;
-}
-
-.learn h1 {
-  font-family: 'League Spartan', sans-serif;
-  font-size: 120%;
-  margin-bottom: 5px;
-}
-
-.learn ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-  margin-top: 20px;
-}
-
-.learn ul li {
-  font-family: 'Montserrat', sans-serif;
-}
-
-.learn ul li a {
-  text-decoration: none;
-  color: black;
-  font-size: 80%;
-}
-
-.learn p a,
-.learn p a:link,
-.learn p a:visited,
-.learn p a:hover,
-.learn p a:active,
-.learn p a:focus {
-  all: unset;
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 80%;
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
 
 .header {
   height: 450px;
@@ -316,44 +198,30 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 30px;
+    padding: 30px 0 50px 0;
 }
 
-.menu h1 {
-    font-family: 'League Spartan', sans-serif;
-    font-size: 200%;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-
-.menu h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    margin-bottom: 30px;
-}
-
-.menu h2 {
-    font-family: 'League Spartan', sans-serif;
-    margin-bottom: 20px;
-}
-
-.menu div {
-    display: inline-block;
-}
-
-.best-sell div h2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+.best-sell {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .table {
-    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .table h2 {
+    font-family: 'Montserrat', sans-serif;
     font-size: 120%;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .menu-img {
@@ -362,18 +230,11 @@ footer {
     justify-content: center;
 }
 
-.best-sell div img {
+.menu-img img {
     height: 400px;
     width: 300px;
     object-fit: cover;
     object-position: center;
-}
-
-.best-sell .prices {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
 }
 
 .prices {
@@ -381,15 +242,25 @@ footer {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
-.prices div p {
-    text-align: center;
+.prices div {
+    display: flex;
+    gap: 5px;
 }
 
-.prices div p:nth-child(2) {
+.prices div p:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 110%;
     font-weight: 900;
+}
+
+.prices div p:last-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 90%;
+    font-weight: 400;
+    color: #8B4513;
 }
 
 .all-prod {
@@ -411,43 +282,8 @@ footer {
 .all-prod h3 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
+    margin-top: 20px;
     margin-bottom: 30px;
-}
-
-.all-prod-img img {
-    height: 400px;
-    width: 600px;
-    object-fit: cover;
-    object-position: 50% 85%;
-}
-
-.all-prod div {
-    display: flex;
-}
-
-.description {
-    flex-direction: column;
-}
-
-.affogato {
-    flex-direction: column;
-    padding: 50px 100px;
-}
-
-.aff-price {
-    align-items: end;
-    justify-content: end;
-}
-
-.aff-price h2 {
-    font-size: 100%;
-    margin-right: 5px;
-}
-
-.aff-price h3 {
-    margin-bottom: 2px;
-    font-size: 70%;
-    margin-right: 50px;
 }
 
 .addons {
@@ -498,4 +334,123 @@ footer {
 
 .pagination a:hover {
     font-weight: 800;
+}
+
+footer {
+    height: 400px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width: 100%;
+    padding-top: 50px;
+
+}
+
+.stay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: start;
+}
+
+.stay h1 {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 150%;
+    margin-bottom: 5px;
+}
+
+.stay h3 {
+    font-family: 'Red Hat Display', sans-serif;
+    font-size: 80%;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.stay form input {
+    padding: 10px 20px;
+    width: 350px;
+    border: 3px solid black;
+    margin-right: 50px;
+    font-size: 80%;
+    margin-bottom: 20px;
+}
+
+.stay form button {
+    padding: 10px 20px;
+    width: 200px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border: 3px solid rgba(128, 128, 128, 0);
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 80%;
+    cursor: pointer;
+}
+
+.stay form p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 60%;
+    color: black;
+    margin-top: 5px;
+}
+
+.socials {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.socials i {
+    color: black;
+    font-size: 150%;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.learn h1 {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 120%;
+    margin-bottom: 5px;
+}
+
+.learn ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.learn ul li {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.learn ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 80%;
+}
+
+.learn p a,
+.learn p a:link,
+.learn p a:visited,
+.learn p a:hover,
+.learn p a:active,
+.learn p a:focus {
+    all: unset;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 80%;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
