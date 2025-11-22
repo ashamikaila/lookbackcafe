@@ -74,7 +74,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
             </div>
+=======
+            </div>      
+>>>>>>> 75dc04fac5e887f921991e647e3022f84d39296a
         </div>
 
         <div class="menu">
@@ -153,7 +157,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         </div>
                     </div>
                 </div>
-            </div>      
+            </div>
         </div>
         
         <div class="addons">
