@@ -129,6 +129,12 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu">
+            <div>
+                <div class="best-sell">
                     <div class="table">
                         <div class="menu-img">
                             <img src="../resources/img/MENU/WAFFLE/nutella.jpg" alt="">
@@ -177,9 +183,6 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>      
         </div>
         
-
-
-    
 
         <div class="addons">
             <h1>ADD ONS</h1>
