@@ -23,7 +23,7 @@
                         <a href="viet.php">VIETNAMESE SERIES</a>
                         <a href="non-coffee.php">NON-COFFEE SERIES</a>
                         <a href="soda.php">SODA SERIES</a>
-                        <a href="milkshake.php">MILKSHARE SERIES</a>
+                        <a href="milkshake.php">MILKSHAKE SERIES</a>
                         <a href="snacks.php">SNACKS & WAFFLES</a>
                         <a href="rice.php">RICE MEAL</a>
                         <a href="hs.php">HOUSE SPECIALS</a>

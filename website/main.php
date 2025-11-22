@@ -1,19 +1,5 @@
 <?php
-session_start();
-$isLoggedIn = isset($_SESSION["is_logged_in"]) && $_SESSION["is_logged_in"];
-$userName = $_SESSION["user_name"] ?? "User";
-$userAvatar = $_SESSION["user_avatar"] ?? null;
-
-// Get user initials for avatar
-function getUserInitials($name): string
-{
-    $words = explode(separator: ' ', string: trim(string: $name));
-    if (count(value: $words) >= 2) {
-        return strtoupper(string: substr(string: $words[0], offset: 0, length: 1) . substr(string: $words[1], offset: 0, length: 1));
-    }
-    return strtoupper(string: substr(string: $name, offset: 0, length: 2));
-}
-$userInitials = getUserInitials(name: $userName);
+include 'auth/header.php'; // relative path from current page
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,10 +28,10 @@ $userInitials = getUserInitials(name: $userName);
                 <div class="dropdown-content" id="menu-dropdown">
                     <h1>Menu</h1>
                     <a href="espresso.php">ESPRESSO SERIES</a>
-                    <a href="#">VIETNAMESE SERIES</a>
-                    <a href="#">NON-COFFEE SERIES</a>
-                    <a href="#">SODA SERIES</a>
-                    <a href="#">MILKSHARE SERIES</a>
+                    <a href="viet.php">VIETNAMESE SERIES</a>
+                    <a href="noncoffee.php">NON-COFFEE SERIES</a>
+                    <a href="soda.php">SODA SERIES</a>
+                    <a href="#">MILKSHAKE SERIES</a>
                     <a href="#">SNACKS & WAFFLES</a>
                     <a href="#">RICE MEAL</a>
                     <a href="#">HOUSE SPECIALS</a>

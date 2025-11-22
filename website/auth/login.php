@@ -1,31 +1,41 @@
 <?php
 session_start();
+$error = '';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST["email"] ?? $_POST["username"] ?? "";
-    $password = $_POST["password"] ?? "";
-    
-    // For now, simulate successful login (no database check)
-    // TODO: Add database verification later
-    
-    if (!empty($email) && !empty($password)) {
-        // Extract name from email (before @) or use username
-        $userName = strstr($email, '@', true) ?: $email;
-        
-        // Create session
-        $_SESSION["user_id"] = uniqid();
-        $_SESSION["user_name"] = $userName;
-        $_SESSION["user_email"] = $email;
-        $_SESSION["is_logged_in"] = true;
-        $_SESSION["user_avatar"] = null; // No custom avatar yet
-        
-        // Redirect to main page
-        header("Location: ../main.php");
-        exit();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    // TODO: replace this with DB check
+    $dbUser = 'nathan'; // example user from database
+    $dbPass = '12345'; // example password from database
+
+    if ($username === $dbUser && $password === $dbPass) {
+        $_SESSION['is_logged_in'] = true;
+        $_SESSION['user_name'] = $username;
+        $_SESSION['user_avatar'] = null; // optional, can use DB value
+
+        header('Location: ../main.php'); // redirect after login
+        exit;
+    } else {
+        $error = 'Invalid username or password.';
     }
 }
-
-// If something went wrong, redirect back
-header("Location: ../as_user.php?error=1");
-exit();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Look Back Café</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <?php if ($error) echo "<p style='color:red;'>$error</p>"; ?>
+    <form method="POST">
+        <label>Username: <input type="text" name="username" required></label><br>
+        <label>Password: <input type="password" name="password" required></label><br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

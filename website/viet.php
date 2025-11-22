@@ -22,8 +22,8 @@
                         <a href="espresso.php">ESPRESSO SERIES</a>
                         <a href="viet.php">VIETNAMESE SERIES</a>
                         <a href="noncoffee.php">NON-COFFEE SERIES</a>
-                        <a href="#">SODA SERIES</a>
-                        <a href="#">MILKSHARE SERIES</a>
+                        <a href="soda.php">SODA SERIES</a>
+                        <a href="#">MILKSHAKE SERIES</a>
                         <a href="#">SNACKS & WAFFLES</a>
                         <a href="#">RICE MEAL</a>
                         <a href="#">HOUSE SPECIALS</a>
