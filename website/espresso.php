@@ -58,67 +58,67 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>270</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/wcmocha.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>White Chocolate Mocha</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>270</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/sigblend.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Signature Blend</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>-</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>180</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>180</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>300</p>
                             </div>
                         </div>
                     </div>
@@ -154,41 +154,41 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="best-sell">
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/dirtymatcha.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Dirty Matcha</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>160</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>270</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/brevelatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/macchiato.jpg" alt="">
                         </div>
                         <h2>Breve Latte</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>150</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
@@ -196,23 +196,23 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/mocha.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Mocha</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>150</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
@@ -220,23 +220,23 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/caramellatte.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Caramel Latte</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>150</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
@@ -244,7 +244,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
@@ -256,37 +256,37 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="best-sell">
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/spanishlatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/latte.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Latte</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>120</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>
                     <div class="table">
                         <div class="menu-img">
-                            <img src="../resources/img/MENU/ESPRESSO/brevelatte.jpg" alt="">
+                            <img src="../resources/img/MENU/ESPRESSO/americano.jpg" alt="">
                         </div>
-                        <h2>Breve Latte</h2>
+                        <h2>Americano</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>110</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
@@ -294,7 +294,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>

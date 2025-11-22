@@ -33,7 +33,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/SODA/blueberry.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Blueberry</h2>
                         <div class="prices">
                             <div>
                                 <p>16 OZ</p>
@@ -45,7 +45,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/SODA/green.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Green Apple</h2>
                         <div class="prices">
                             <div>
                                 <p>16 OZ</p>
@@ -65,7 +65,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/SODA/lemon.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Lemon</h2>
                         <div class="prices">
                             <div>
                                 <p>16 OZ</p>
@@ -85,7 +85,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/SODA/lychee.jpg" alt="">
                         </div>
-                        <h2>Breve Latte</h2>
+                        <h2>Lychee</h2>
                         <div class="prices">
                             <div>
                                 <p>16 OZ</p>
@@ -105,7 +105,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>250</p>
                             </div>
                         </div>
                     </div>
@@ -113,12 +113,8 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/SODA/strawberry.jpg" alt="">
                         </div>
-                        <h2>Spanish Latte</h2>
+                        <h2>Strawberry</h2>
                         <div class="prices">
-                            <div>
-                                <p>HOT</p>
-                                <p>150</p>
-                            </div>
                             <div>
                                 <p>16 OZ</p>
                                 <p>130</p>
@@ -129,7 +125,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>

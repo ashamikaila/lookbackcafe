@@ -12,8 +12,8 @@ if (session_status() === PHP_SESSION_NONE) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café | Milkshake Series</title>
-        <link rel="stylesheet" href="../resources/css/soda.css">
+        <title>Look Back Café | Snacks & Waffles </title>
+        <link rel="stylesheet" href="../resources/css/hs.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
     <body>
@@ -23,76 +23,19 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <div class="all-prod">
             <h1>Menu</h1>
-            <h3> MILKSHAKE SERIES </h3>
+            <h3>LOOK BACK'S HOUSE SPECIAL</h3>
         </div>
 
-        <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/MILKSHAKE/biscoff.jpg" alt="Biscoff Caramel">
-                        </div>
-                        <h2>Biscoff Caramel</h2>
-                        <div class="prices">
-                            <div>
-                                <p>180</p>
-                                <p>500ml</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/MILKSHAKE/avo.jpg" alt="Avocado">
-                        </div>
-                        <h2>Avocado</h2>
-                        <div class="prices">
-                            <div>
-                                <p>180</p>
-                                <p>500ml</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/MILKSHAKE/dc.jpg" alt="Dark Chocolate">
-                        </div>
-                        <h2>Dark Chocolate</h2>
-                        <div class="prices">
-                            <div>
-                                <p>180</p>
-                                <p>500ml</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/MILKSHAKE/cnc.jpg" alt="Cookies and Cream">
-                        </div>
-                        <h2>Cookies and Cream</h2>
-                        <div class="prices">
-                            <div>
-                                <p>180</p>
-                                <p>500ml</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>      
+        <div class="specials-img">
+            <img src="../resources/img/MENU/HOUSE SPECIALS/housespecial.png" alt="House Specials">
         </div>
-    
-       <div class="addons">
-            <h3>All drinks are subject to availability.</h3>
-
 
             <div class="pagination">
-                <a href="soda.php" class="prev">&lt;</a>
-                <a href="soda.php">4</a>
-                <a href="milkshake.php" class="active">5</a>
-                <a href="espresso.php">6</a>
-                <a href="snacks.php" class="next">&gt;</a>
+                    <a href="rice.php" class="prev">&lt;</a>
+                    <a href="rice.php">7</a>
+                    <a href="snacks.php"class="active">8</a>
             </div>
-        </div>
+
 
         <footer>
             <div class="footer-grid">

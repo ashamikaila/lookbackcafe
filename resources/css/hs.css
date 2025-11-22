@@ -12,7 +12,7 @@
 }
 
 body {
-    background-color: #1c1c1c;
+    background-color: #ffffff;
 }
 
 .nav {
@@ -192,74 +192,6 @@ body {
   background-position: 0 55%;
 }
 
-.menu {
-    background-color: white;
-    display: grid;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 30px;
-}
-
-.menu div {
-    display: inline-block;
-}
-
-.menu h2 {
-    font-family: 'League Spartan', sans-serif;
-    margin-bottom: 20px;
-}
-
-.best-sell div h2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.table {
-    margin: 20px;
-}
-
-.table h2 {
-    font-size: 120%;
-}
-
-.menu-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.best-sell div img {
-    height: 400px;
-    width: 300px;
-    object-fit: cover;
-    object-position: center;
-}
-
-.best-sell .prices {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.prices {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.prices div p {
-    text-align: center;
-}
-
-.prices div p:nth-child(2) {
-    font-weight: 900;
-}
 
 .all-prod {
     display: flex;
@@ -284,32 +216,17 @@ body {
     margin-bottom: 30px;
 }
 
-.addons {
-    background: white;
-    text-align: center;
-    padding: 40px 0;
-}
-
-.addons h1 {
-    font-family: 'League Spartan', sans-serif;
-    text-transform: uppercase;
-    font-size: 200%;
+.specials-img {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
-.addon-list {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 80%;
-    margin-bottom: 25px;
-}
-
-.addons h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    margin-bottom: 25px;
+.specials-img img {
+    width: 70%;
+    max-width: 700px;
+    height: auto;
 }
 
 .pagination {

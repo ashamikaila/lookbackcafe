@@ -26,9 +26,9 @@ $userInitials = getUserInitials($userName);
                 <a href="noncoffee.php">NON-COFFEE SERIES</a>
                 <a href="soda.php">SODA SERIES</a>
                 <a href="milkshake.php">MILKSHAKE SERIES</a>
-                <a href="#">SNACKS & WAFFLES</a>
-                <a href="#">RICE MEAL</a>
-                <a href="#">HOUSE SPECIALS</a>
+                <a href="snacks.php">SNACKS & WAFFLES</a>
+                <a href="rice.php">RICE MEAL</a>
+                <a href="hs.php">HOUSE SPECIALS</a>
             </div>
         </li>
         <li><a href="about.php">About</a></li>

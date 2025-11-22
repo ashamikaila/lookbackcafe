@@ -54,7 +54,6 @@ body {
     font-weight: 800;
 }
 
-/* User Avatar Styles */
 .user-avatar-container {
     position: relative;
 }
@@ -90,7 +89,7 @@ body {
     user-select: none;
 }
 
-/* User Dropdown Menu */
+
 .user-menu {
     position: absolute;
     top: 60px;
@@ -302,6 +301,10 @@ body {
     padding-top: 30px;
 }
 
+.menu h2 {
+    font-family: 'League Spartan', sans-serif;
+    margin-bottom: 20px;
+}
 
 .best-sell {
     display: grid;

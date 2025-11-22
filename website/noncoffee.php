@@ -36,16 +36,20 @@ if (session_status() === PHP_SESSION_NONE) {
                         <h2>Berry Matcha</h2>
                         <div class="prices">
                             <div>
-                                <p>16 OZ</p>
-                                <p>130</p>
+                                <p>HOT</p>
+                                <p>140</p>
                             </div>
                             <div>
-                                <p>UPSIZE</p>
+                                <p>16 OZ</p>
                                 <p>150</p>
                             </div>
                             <div>
+                                <p>UPSIZE</p>
+                                <p>-</p>
+                            </div>
+                            <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>270</p>
                             </div>
                         </div>
                     </div>
@@ -53,19 +57,23 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/NONCOFFEE/brownsugar.jpg" alt="">
                         </div>
-                        <h2>Brown Sugar</h2>
+                        <h2>Brown Sugar Milk</h2>
                         <div class="prices">
+                            <div>
+                                <p>HOT</p>
+                                <p>120</p>
+                            </div>
                             <div>
                                 <p>16 OZ</p>
                                 <p>130</p>
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>
@@ -77,19 +85,19 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>140</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
-                                <p>130</p>
-                            </div>
-                            <div>
-                                <p>UPSIZE</p>
                                 <p>150</p>
                             </div>
                             <div>
+                                <p>UPSIZE</p>
+                                <p>-</p>
+                            </div>
+                            <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>270</p>
                             </div>
                         </div>
                     </div>
@@ -97,11 +105,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/NONCOFFEE/chocolate.jpg" alt="">
                         </div>
-                        <h2>Chocolate</h2>
+                        <h2>Chocolate Milk</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>120</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
@@ -109,11 +117,11 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>
@@ -125,7 +133,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>120</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
@@ -133,11 +141,11 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>130</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>
@@ -145,11 +153,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="menu-img">
                             <img src="../resources/img/MENU/NONCOFFEE/strawberry.jpg" alt="">
                         </div>
-                        <h2>Strawberry</h2>
+                        <h2>Strawberry Milk</h2>
                         <div class="prices">
                             <div>
                                 <p>HOT</p>
-                                <p>150</p>
+                                <p>120</p>
                             </div>
                             <div>
                                 <p>16 OZ</p>
@@ -157,11 +165,11 @@ if (session_status() === PHP_SESSION_NONE) {
                             </div>
                             <div>
                                 <p>UPSIZE</p>
-                                <p>150</p>
+                                <p>-</p>
                             </div>
                             <div>
                                 <p>1 LITER</p>
-                                <p>210</p>
+                                <p>230</p>
                             </div>
                         </div>
                     </div>
