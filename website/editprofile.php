@@ -9,11 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Background Image using img tag -->
     <img src="../resources/img/LOGIN/loginbg.png" alt="Background" class="background-image">
     <div class="background-overlay"></div>
 
-    <!-- Profile Container -->
     <div class="profile-container">
         <div class="profile-header">
             <div class="logo-container">
@@ -22,7 +20,10 @@
         </div>
 
         <div class="profile-content">
-            <!-- Profile Information Section -->
+            <div id="successMessage" class="success-message" style="display: none;">
+                Your profile has been successfully updated!
+            </div>
+
             <div class="profile-section">
                 <h2 class="section-title">Edit Profile</h2>
                 <form class="profile-form">
@@ -36,11 +37,10 @@
                         <input type="email" id="email" name="email" value="" required>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary" onclick="showSuccessMessage(event)">Update</button>
                 </form>
             </div>
 
-            <!-- Change Password Section -->
             <div class="profile-section">
                 <h2 class="section-title">Change Password</h2>
                 <form class="password-form">
@@ -59,11 +59,10 @@
                         <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary" onclick="showSuccessMessage(event)">Update</button>
                 </form>
             </div>
 
-            <!-- Delete Account Section -->
             <div class="profile-section danger-section">
                 <h2 class="section-title">Delete Account</h2>
                 <p class="warning-text">Warning: This action cannot be undone. All your data will be permanently deleted.</p>
@@ -75,11 +74,20 @@
     </div>
 
     <script>
+        function showSuccessMessage(event) {
+            event.preventDefault();s
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
         function confirmDelete() {
             return confirm("Are you sure you want to delete your account? This action cannot be undone.");
         }
 
-        // Password validation
         document.addEventListener('DOMContentLoaded', function() {
             const passwordForm = document.querySelector('.password-form');
             if (passwordForm) {
@@ -98,6 +106,15 @@
                         alert('Password must be at least 6 characters long!');
                         return false;
                     }
+                    
+                    showSuccessMessage(e);
+                });
+            }
+
+            const profileForm = document.querySelector('.profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    showSuccessMessage(e);
                 });
             }
         });
