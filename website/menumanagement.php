@@ -1,3 +1,14 @@
+<?php
+session_start();
+require_once 'config/db.php';
+require_once 'config/security.php';
+
+// Configure secure session
+configure_secure_session();
+
+// Check if admin is logged in
+require_auth('admin');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +40,7 @@
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -39,7 +50,7 @@
             <header class="admin-header">
                 <h1>Menu Management</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 

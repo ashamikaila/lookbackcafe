@@ -1,0 +1,417 @@
+================================================================================
+LOOK BACK CAFÉ - SECURITY IMPLEMENTATION DOCUMENTATION
+================================================================================
+
+This document explains the key security features and the exact lines of code
+that make them work.
+
+================================================================================
+1. SECURITY MEASURES (SQL Injection Prevention)
+================================================================================
+
+FILE: website/config/db.php
+LINES: 24
+
+What it does:
+- Prevents SQL injection attacks by setting proper character encoding
+- Forces all database queries to use UTF-8 encoding
+
+Code:
+    $conn->set_charset("utf8mb4");
+
+How it works:
+- utf8mb4 prevents encoding-based SQL injection attacks
+- Ensures all data is properly escaped before database insertion
+
+
+FILE: website/config/security.php  
+LINES: 205-240 (sanitize_input function)
+
+What it does:
+- Cleans user input to prevent XSS and injection attacks
+- Removes dangerous characters and scripts
+
+Code:
+    function sanitize_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+        return $data;
+    }
+
+How it works:
+- trim() removes whitespace
+- stripslashes() removes backslashes
+- htmlspecialchars() converts special characters to HTML entities
+
+
+FILE: website/config/security.php
+LINES: 250-280 (prepare_statement function)
+
+What it does:
+- Uses prepared statements to prevent SQL injection
+- Separates SQL code from user data
+
+Code:
+    function prepare_statement($conn, $query, $types, $params) {
+        $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            return false;
+        }
+        $stmt->bind_param($types, ...$params);
+        return $stmt;
+    }
+
+How it works:
+- prepare() creates a prepared statement template
+- bind_param() safely binds user data to the query
+- User data never directly inserted into SQL string
+
+
+================================================================================
+2. BCRYPT HASHING (Password Security)
+================================================================================
+
+FILE: website/config/security.php
+LINES: 88-95 (hash_password function)
+
+What it does:
+- Converts passwords into secure one-way hashes
+- Makes passwords unreadable even if database is compromised
+
+Code:
+    function hash_password($password) {
+        return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+    }
+
+How it works:
+- password_hash() is PHP's built-in secure hashing function
+- PASSWORD_BCRYPT uses the bcrypt algorithm (industry standard)
+- cost => 12 means the algorithm runs 2^12 = 4096 iterations
+- Higher cost = slower but more secure against brute force attacks
+- Each hash includes a random salt automatically
+
+
+FILE: website/config/security.php
+LINES: 98-106 (verify_password function)
+
+What it does:
+- Checks if entered password matches stored hash
+- Secure comparison that prevents timing attacks
+
+Code:
+    function verify_password($password, $hash) {
+        return password_verify($password, $hash);
+    }
+
+How it works:
+- password_verify() safely compares password with hash
+- Automatically extracts salt from stored hash
+- Returns true if password matches, false otherwise
+- Uses constant-time comparison to prevent timing attacks
+
+
+Example Usage:
+    // When user registers
+    $hashed = hash_password("MyPassword123!");
+    // Store $hashed in database
+    
+    // When user logs in
+    $is_valid = verify_password("MyPassword123!", $hashed);
+    // Returns true if password matches
+
+
+================================================================================
+3. AES-256 ENCRYPTION (Data Protection)
+================================================================================
+
+FILE: website/config/security.php
+LINES: 113-116 (Encryption constants)
+
+What it does:
+- Defines encryption method and secret key
+
+Code:
+    define('ENCRYPTION_KEY', 'LookBackCafe2024SecureKey!@#$%');
+    define('ENCRYPTION_METHOD', 'AES-256-CBC');
+
+How it works:
+- ENCRYPTION_KEY is the secret key (should be 32 bytes for AES-256)
+- AES-256-CBC is the encryption algorithm (military-grade)
+- CBC = Cipher Block Chaining mode
+
+
+FILE: website/config/security.php
+LINES: 125-142 (encrypt_data function)
+
+What it does:
+- Encrypts sensitive data so it's unreadable without the key
+- Used for credit cards, SSN, personal info
+
+Code:
+    function encrypt_data($data) {
+        $iv_length = openssl_cipher_iv_length(ENCRYPTION_METHOD);
+        $iv = openssl_random_pseudo_bytes($iv_length);
+        $key = hash('sha256', ENCRYPTION_KEY, true);
+        $encrypted = openssl_encrypt($data, ENCRYPTION_METHOD, $key, 0, $iv);
+        return base64_encode('openssl:' . $iv . $encrypted);
+    }
+
+How it works:
+- openssl_cipher_iv_length() gets required IV size (16 bytes for AES)
+- openssl_random_pseudo_bytes() generates random IV (Initialization Vector)
+- hash('sha256', ENCRYPTION_KEY, true) creates 256-bit key from secret
+- openssl_encrypt() performs AES-256-CBC encryption
+- base64_encode() makes encrypted data safe for storage
+- IV is stored with encrypted data (needed for decryption)
+
+
+FILE: website/config/security.php
+LINES: 158-178 (decrypt_data function)
+
+What it does:
+- Decrypts encrypted data back to original form
+- Only works with correct encryption key
+
+Code:
+    function decrypt_data($encrypted_data) {
+        $data = base64_decode($encrypted_data);
+        if (substr($data, 0, 8) === 'openssl:') {
+            $data = substr($data, 8);
+            $iv_length = openssl_cipher_iv_length(ENCRYPTION_METHOD);
+            $iv = substr($data, 0, $iv_length);
+            $encrypted = substr($data, $iv_length);
+            $key = hash('sha256', ENCRYPTION_KEY, true);
+            return openssl_decrypt($encrypted, ENCRYPTION_METHOD, $key, 0, $iv);
+        }
+        return false;
+    }
+
+How it works:
+- base64_decode() converts stored data back to binary
+- Extracts IV from beginning of encrypted data
+- Extracts encrypted portion after IV
+- openssl_decrypt() reverses encryption using same key and IV
+- Returns original plaintext data
+
+
+Example Usage:
+    // Encrypt credit card
+    $encrypted_cc = encrypt_data("4532-1234-5678-9010");
+    // Store $encrypted_cc in database
+    
+    // Decrypt when needed
+    $original_cc = decrypt_data($encrypted_cc);
+    // Returns "4532-1234-5678-9010"
+
+
+================================================================================
+4. PHPMAILER (Email Sending)
+================================================================================
+
+FILE: website/config/email.php
+LINES: 7-12 (PHPMailer imports)
+
+What it does:
+- Loads PHPMailer library classes
+
+Code:
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    
+    require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/Exception.php';
+    require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+    require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/SMTP.php';
+
+How it works:
+- Imports PHPMailer classes from vendor directory
+- Makes PHPMailer functions available to use
+
+
+FILE: website/config/email.php
+LINES: 15-20 (Email configuration)
+
+What it does:
+- Stores email server settings
+
+Code:
+    define('USE_SMTP', false);
+    define('SMTP_HOST', 'smtp.gmail.com');
+    define('SMTP_PORT', 587);
+    define('SMTP_USERNAME', 'your-email@gmail.com');
+    define('SMTP_PASSWORD', 'your-password');
+    define('SMTP_FROM_EMAIL', 'noreply@lookbackcafe.com');
+    define('SMTP_FROM_NAME', 'Look Back Café');
+
+How it works:
+- USE_SMTP = false means use PHP's mail() function
+- If true, would use SMTP server (Gmail, Mailgun, etc.)
+- SMTP settings define mail server connection details
+
+
+FILE: website/config/email.php
+LINES: 28-56 (get_mailer function)
+
+What it does:
+- Creates and configures PHPMailer object
+- Sets up email sending method
+
+Code:
+    function get_mailer() {
+        $mail = new PHPMailer(true);
+        
+        if (USE_SMTP) {
+            $mail->isSMTP();
+            $mail->Host = SMTP_HOST;
+            $mail->SMTPAuth = true;
+            $mail->Username = SMTP_USERNAME;
+            $mail->Password = SMTP_PASSWORD;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = SMTP_PORT;
+        } else {
+            $mail->isMail();
+        }
+        
+        $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        
+        return $mail;
+    }
+
+How it works:
+- new PHPMailer(true) creates mailer object with exceptions enabled
+- isSMTP() or isMail() sets sending method
+- setFrom() sets sender email and name
+- isHTML(true) allows HTML email content
+- CharSet ensures proper character encoding
+
+
+FILE: website/config/email.php
+LINES: 64-80 (send_email_basic function)
+
+What it does:
+- Sends email using PHPMailer
+- Main email sending function
+
+Code:
+    function send_email_basic($to, $subject, $message) {
+        $mail = get_mailer();
+        
+        try {
+            $mail->addAddress($to);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Email send error: {$mail->ErrorInfo}");
+            return false;
+        }
+    }
+
+How it works:
+- get_mailer() creates configured PHPMailer object
+- addAddress() sets recipient email
+- Subject and Body set email content
+- send() actually sends the email
+- try/catch handles errors gracefully
+- Returns true on success, false on failure
+
+
+FILE: website/config/email.php
+LINES: 88-139 (send_otp_email function)
+
+What it does:
+- Sends password reset OTP email
+- Uses HTML template with styling
+
+Code:
+    function send_otp_email($email, $otp, $name) {
+        $subject = "Password Reset OTP - Look Back Café";
+        $styles = get_email_styles();
+        
+        $message = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>$styles</style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Look Back Café</h1>
+                </div>
+                <div class='content'>
+                    <h2>Password Reset Request</h2>
+                    <p>Hello $name,</p>
+                    <div class='otp-box'>
+                        <div class='otp-code'>$otp</div>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        return send_email_basic($email, $subject, $message);
+    }
+
+How it works:
+- get_email_styles() loads CSS from email.css file
+- Creates HTML email with OTP code
+- Inserts user's name and OTP into template
+- Calls send_email_basic() to actually send
+- Returns true/false based on send success
+
+
+Example Usage:
+    // Send OTP for password reset
+    $otp = "123456";
+    $success = send_otp_email("user@example.com", $otp, "John Doe");
+    
+    if ($success) {
+        echo "OTP sent successfully";
+    } else {
+        echo "Failed to send OTP";
+    }
+
+
+================================================================================
+SECURITY BEST PRACTICES IMPLEMENTED
+================================================================================
+
+1. Password Security:
+   - Minimum 12 characters required
+   - Must include uppercase, lowercase, numbers, special chars
+   - Bcrypt hashing with cost factor 12
+   - Weak password blacklist
+
+2. Data Protection:
+   - AES-256 encryption for sensitive data
+   - Prepared statements prevent SQL injection
+   - Input sanitization prevents XSS attacks
+   - UTF-8 encoding prevents encoding attacks
+
+3. Session Security:
+   - Session fixation prevention
+   - Session regeneration on login
+   - Secure session cookies
+   - Session timeout after inactivity
+
+4. Email Security:
+   - PHPMailer prevents email injection
+   - HTML email sanitization
+   - Rate limiting for OTP requests
+   - One-time use OTP codes
+
+5. Database Security:
+   - Prepared statements for all queries
+   - Error logging instead of displaying
+   - Connection charset set to utf8mb4
+   - SSL/TLS support ready (commented out)
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================

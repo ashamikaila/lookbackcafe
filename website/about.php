@@ -62,7 +62,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <i class="fa-brands fa-instagram"></i>
                     <i class="fa-brands fa-tiktok"></i>
                 </div>
-                <div class="logo" style="margin-left: -10px;">
+                <div class="logo">
                     <img src="../resources/img/logo.jpg" alt="">
                 </div>
             </form>

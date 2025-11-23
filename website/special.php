@@ -1,3 +1,20 @@
+<?php
+session_start();
+require_once 'config/db.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login_as.php");
+    exit();
+}
+
+// Get special offers title
+$specialTitle = $conn->query("SELECT content_value FROM page_content WHERE page_name = 'special_offers' AND section_name = 'title'")->fetch_assoc();
+$titleText = $specialTitle ? $specialTitle['content_value'] : "SPECIAL OFFERS";
+
+// Get active special offers
+$specialOffers = $conn->query("SELECT * FROM special_offers WHERE is_active = 1 ORDER BY offer_order ASC");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +45,7 @@
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,7 +54,7 @@
             <header class="admin-header">
                 <h1>Special Offers Management</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 
@@ -51,10 +68,10 @@
                 </div>
                 
                 <div class="title-editor">
-                    <input type="text" id="titleText" class="title-input" value="SPECIAL OFFERS" placeholder="Enter special offers title...">
+                    <input type="text" id="titleText" class="title-input" value="<?php echo htmlspecialchars($titleText); ?>" placeholder="Enter special offers title...">
                     <div class="title-preview">
                         <h3>Preview:</h3>
-                        <div class="preview-title" id="titlePreview">SPECIAL OFFERS</div>
+                        <div class="preview-title" id="titlePreview"><?php echo htmlspecialchars($titleText); ?></div>
                     </div>
                 </div>
             </div>
@@ -105,7 +122,7 @@
                 <h2>Live Preview</h2>
                 <div class="preview-container">
                     <div class="preview-title-display">
-                        <h1 id="previewTitleText">SPECIAL OFFERS</h1>
+                        <h1 id="previewTitleText"><?php echo htmlspecialchars($titleText); ?></h1>
                     </div>
                     <div class="preview-offers">
                         <div class="special-preview">

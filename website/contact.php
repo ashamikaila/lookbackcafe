@@ -2,6 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once 'config/db.php';
+
+// Get business info from database
+$businessInfo = $conn->query("SELECT * FROM business_info WHERE info_id = 1")->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,39 +35,36 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 
     <p class="contact-address">
-        In front of CEU Malolos Gate 3, MacArthur Highway,<br>
-        Longos, Malolos, Philippines
+        <?php echo nl2br(htmlspecialchars($businessInfo['business_address'])); ?>
     </p>
 
-    <a class="contact-map-link" href="https://maps.app.goo.gl/SVh5K9ZCcPvUCnJm7" target="_blank">
-        <i class="fa-solid fa-location-dot" style="color: #000000;"></i>
+    <a class="contact-map-link" href="<?php echo htmlspecialchars($businessInfo['google_maps_link']); ?>" target="_blank">
+        <i class="fa-solid fa-location-dot"></i>
         Google Maps to Look Back Cafe
     </a>
 
     <p class="contact-info">
-        email: lookbackcafe.25@gmail.com<br>
-        mobile: +63 939 4716 012
+        email: <?php echo htmlspecialchars($businessInfo['business_email']); ?><br>
+        mobile: <?php echo htmlspecialchars($businessInfo['business_phone']); ?>
     </p>
 
     <p class="contact-social-label">@lookbackcafe on:</p>
 
     <div class="contact-socials">
-        <a href="https://www.facebook.com/lookbackcafe/"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://www.instagram.com/lookbackcafe/"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@lookbackcafe"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="<?php echo htmlspecialchars($businessInfo['facebook_link']); ?>" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+        <a href="<?php echo htmlspecialchars($businessInfo['instagram_link']); ?>" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="<?php echo htmlspecialchars($businessInfo['tiktok_link']); ?>" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
     </div>
 
     <h2 class="store-hours-title">STORE HOURS</h2>
 
     <p class="store-hours">
-        Mon – Sat, 8AM – 8PM<br>
-        Sun & Holidays, 10AM – 8PM
+        Mon – Sat, <?php echo htmlspecialchars($businessInfo['weekday_hours']); ?><br>
+        Sun & Holidays, <?php echo htmlspecialchars($businessInfo['weekend_hours']); ?>
     </p>
 
     <div class="contact-map-embed">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3856.2099929974647!2d120.79826227574453!3d14.869531670434611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x339651beb9a91c99%3A0x37ab9eef1b7b16c8!2sLook%20Back%20Caf%C3%A9!5e0!3m2!1sen!2sph!4v1763465378566!5m2!1sen!2sph"
-            allowfullscreen="" loading="lazy">
-        </iframe>
+        <?php echo $businessInfo['google_maps_embed']; ?>
     </div>
 
 </section>
@@ -73,19 +74,19 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="stay">
             <h1>STAY UPDATED</h1>
             <h3>Get the latest drops, news, and insider info—straight to your inbox.</h3>
-            <form>
-                <input type="email" placeholder="Enter your email">
+            <form action="main.php" method="POST">
+                <input type="email" name="newsletter_email" placeholder="Enter your email" required>
                 <button type="submit">Subscribe</button>
                 <p>By submitting, you agree to our Privacy Policy and Terms & Conditions.</p>
                 <p>You can unsubscribe at any time if you change your mind.</p>
 
                 <div class="socials">
-                    <a href="https://www.facebook.com/lookbackcafe/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/lookbackcafe/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@lookbackcafe" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="<?php echo htmlspecialchars($businessInfo['facebook_link']); ?>" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="<?php echo htmlspecialchars($businessInfo['instagram_link']); ?>" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="<?php echo htmlspecialchars($businessInfo['tiktok_link']); ?>" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
 
-                <div class="logo" style="margin-left: -10px;">
+                <div class="logo">
                     <img src="../resources/img/logo.jpg" alt="">
                 </div>
             </form>

@@ -1,11 +1,23 @@
 <?php
 session_start();
 require_once '../config/db.php';
+require_once '../config/security.php';
+
+// Configure secure session
+configure_secure_session();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST["email"] ?? $_POST["username"] ?? "";
+    $email = sanitize_input($_POST["email"] ?? $_POST["username"] ?? "");
     $password = $_POST["password"] ?? "";
     $role = $_POST["role"] ?? "user";
+    
+    // Check rate limiting
+    if (check_rate_limit($email)) {
+        log_security_event('rate_limit_exceeded', "Too many login attempts for: $email", null);
+        $_SESSION['error_message'] = "Too many login attempts. Please try again later.";
+        header("Location: ../" . ($role === "admin" ? "as_admin.php" : "as_user.php"));
+        exit();
+    }
     
     if ($role === "admin") {
         // Check admin table
@@ -18,22 +30,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $admin = $result->fetch_assoc();
             
             // Verify password with bcrypt
-            if (password_verify($password, $admin['password'])) {
-                // Password correct - create session
+            if (verify_password($password, $admin['password'])) {
+                // Password correct - record successful attempt
+                record_login_attempt($email, true);
+                log_security_event('admin_login_success', "Admin logged in: $email", $admin['admin_id']);
+                
+                // Create session
                 $_SESSION["user_id"] = $admin['admin_id'];
                 $_SESSION["user_name"] = $admin['user_name'];
                 $_SESSION["user_email"] = $admin['user_email'];
                 $_SESSION["is_logged_in"] = true;
                 $_SESSION["user_avatar"] = $admin['user_avatar'];
                 $_SESSION["role"] = "admin";
+                $_SESSION['last_regeneration'] = time();
                 
-                header("Location: ../main.php");
+                header("Location: ../admindash.php");
                 exit();
             }
         }
         
-        // Admin login failed
-        header("Location: ../as_admin.php?error=1");
+        // Admin login failed - record attempt
+        record_login_attempt($email, false);
+        log_security_event('admin_login_failed', "Failed admin login attempt: $email", null);
+        $_SESSION['error_message'] = "Incorrect username or password. Please try again.";
+        header("Location: ../as_admin.php");
         exit();
         
     } else {
@@ -47,22 +67,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $user = $result->fetch_assoc();
             
             // Verify password with bcrypt
-            if (password_verify($password, $user['password'])) {
-                // Password correct - create session
+            if (verify_password($password, $user['password'])) {
+                // Password correct - record successful attempt
+                record_login_attempt($email, true);
+                log_security_event('user_login_success', "User logged in: $email", $user['user_id']);
+                
+                // Create session
                 $_SESSION["user_id"] = $user['user_id'];
                 $_SESSION["user_name"] = $user['user_name'];
                 $_SESSION["user_email"] = $user['user_email'];
                 $_SESSION["is_logged_in"] = true;
                 $_SESSION["user_avatar"] = $user['user_avatar'];
                 $_SESSION["role"] = "user";
+                $_SESSION['last_regeneration'] = time();
                 
                 header("Location: ../main.php");
                 exit();
             }
         }
         
-        // User login failed
-        header("Location: ../as_user.php?error=1");
+        // User login failed - record attempt
+        record_login_attempt($email, false);
+        log_security_event('user_login_failed', "Failed user login attempt: $email", null);
+        $_SESSION['error_message'] = "Incorrect email or password. Please try again.";
+        header("Location: ../as_user.php");
         exit();
     }
 }

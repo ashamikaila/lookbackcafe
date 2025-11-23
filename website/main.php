@@ -2,6 +2,50 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once 'config/db.php';
+
+// Handle newsletter subscription
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_email'])) {
+    $email = filter_var($_POST['newsletter_email'], FILTER_SANITIZE_EMAIL);
+    
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Check if email already exists
+        $stmt = $conn->prepare("SELECT id FROM newsletter_subscribers WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            // Insert new subscriber
+            $stmt = $conn->prepare("INSERT INTO newsletter_subscribers (email) VALUES (?)");
+            $stmt->bind_param("s", $email);
+            
+            if ($stmt->execute()) {
+                $_SESSION['newsletter_success'] = "Thank you for subscribing!";
+            }
+        } else {
+            // Reactivate if inactive
+            $stmt = $conn->prepare("UPDATE newsletter_subscribers SET is_active = 1 WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $_SESSION['newsletter_success'] = "You're already subscribed!";
+        }
+    }
+    
+    header("Location: main.php#newsletter");
+    exit();
+}
+
+// Get photo wall caption
+$photoCaption = $conn->query("SELECT content_value FROM page_content WHERE page_name = 'photowall' AND section_name = 'caption'")->fetch_assoc();
+$photoCaptionText = $photoCaption ? $photoCaption['content_value'] : "A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We're so grateful for your support!";
+
+// Get special offers title
+$specialTitle = $conn->query("SELECT content_value FROM page_content WHERE page_name = 'special_offers' AND section_name = 'title'")->fetch_assoc();
+$specialTitleText = $specialTitle ? $specialTitle['content_value'] : "SPECIAL OFFERS";
+
+// Get active special offers
+$specialOffers = $conn->query("SELECT * FROM special_offers WHERE is_active = 1 ORDER BY offer_order ASC LIMIT 2");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,8 +90,7 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <div class="memo">
             <div>
-                <h1>A look back at the moments that made Look Back Café special — thank you to every smile, every visit,
-                    and every memory. We’re so grateful for your support!</h1>
+                <h1><?php echo htmlspecialchars($photoCaptionText); ?></h1>
             </div>
             <div class="gallery-container">
                 <div class="scrolling-gallery" id="gallery">
@@ -69,11 +112,20 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <div class="mot-special">
             <div>
-                <h1>SPECIAL OFFERS</h1>
+                <h1><?php echo htmlspecialchars($specialTitleText); ?></h1>
             </div>
             <div class="special">
-                <img src="../resources/img/HOMEPAGE/monthlyspecials/special1.jpg" alt="">
-                <img src="../resources/img/HOMEPAGE/monthlyspecials/special2.png" alt="">
+                <?php 
+                if ($specialOffers->num_rows > 0) {
+                    while ($offer = $specialOffers->fetch_assoc()) {
+                        echo '<img src="' . htmlspecialchars($offer['image_path']) . '" alt="Special Offer">';
+                    }
+                } else {
+                    // Fallback to default images
+                    echo '<img src="../resources/img/HOMEPAGE/monthlyspecials/special1.jpg" alt="">';
+                    echo '<img src="../resources/img/HOMEPAGE/monthlyspecials/special2.png" alt="">';
+                }
+                ?>
             </div>
         </div>
     </section>
@@ -82,8 +134,16 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="stay">
                 <h1>STAY UPDATED</h1>
                 <h3>Get the latest drops, news, and insider info—straight to your inbox.</h3>
-                <form action="">
-                    <input type="email" placeholder="Enter your email">
+                <form action="main.php" method="POST" id="newsletter">
+                    <?php if (isset($_SESSION['newsletter_success'])): ?>
+                        <div class="newsletter-success">
+                            <?php 
+                            echo $_SESSION['newsletter_success']; 
+                            unset($_SESSION['newsletter_success']);
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                    <input type="email" name="newsletter_email" placeholder="Enter your email" required>
                     <button type="submit">Subscribe</button>
                     <p>By submitting, you agree to our Privacy Policy and Terms & Conditions.</p>
                     <p>You can unsubscribe at any time if you change your mind.</p>
@@ -95,7 +155,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
                             <i class="fa-brands fa-tiktok"></i></a>
                     </div>
-                    <div class="logo" style="margin-left: -10px;">
+                    <div class="logo">
                         <img src="../resources/img/logo.jpg" alt="">
                     </div>
                 </form>

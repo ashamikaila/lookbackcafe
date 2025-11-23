@@ -1,0 +1,129 @@
+═══════════════════════════════════════════════════════════════
+  BREVO (SENDINBLUE) SETUP - QUICK START GUIDE
+═══════════════════════════════════════════════════════════════
+
+✅ WHY BREVO?
+- FREE: 300 emails per day
+- NO APP PASSWORDS needed
+- Reliable email delivery
+- Easy setup (5 minutes)
+- Real emails to real addresses
+
+═══════════════════════════════════════════════════════════════
+STEP 1: CREATE BREVO ACCOUNT
+═══════════════════════════════════════════════════════════════
+
+1. Go to: https://www.brevo.com/
+2. Click "Sign up free"
+3. Fill in your details:
+   - Email
+   - Password
+   - Company name (can be "Look Back Café")
+4. Verify your email address
+
+═══════════════════════════════════════════════════════════════
+STEP 2: GET SMTP CREDENTIALS
+═══════════════════════════════════════════════════════════════
+
+1. Log in to Brevo dashboard
+2. Click your name (top right) > Settings
+3. Click "SMTP & API" in left menu
+4. Click "SMTP" tab
+5. You'll see:
+   
+   ┌─────────────────────────────────────────┐
+   │ SMTP Server: smtp-relay.brevo.com       │
+   │ Port: 587                               │
+   │ Login: your-email@example.com           │
+   │ SMTP Key: [Generate new SMTP key]      │
+   └─────────────────────────────────────────┘
+
+6. Click "Generate a new SMTP key"
+7. Copy the key (you won't see it again!)
+8. SAVE THESE CREDENTIALS
+
+═══════════════════════════════════════════════════════════════
+STEP 3: VERIFY SENDER EMAIL
+═══════════════════════════════════════════════════════════════
+
+⚠️ IMPORTANT: You can only send from verified emails!
+
+1. In Brevo, go to: Settings > Senders & IP
+2. Click "Add a sender"
+3. Enter your email (e.g., noreply@lookbackcafe.com or your Gmail)
+4. Click "Add"
+5. Check your email inbox
+6. Click the verification link
+7. Wait for "Verified" status
+
+═══════════════════════════════════════════════════════════════
+STEP 4: UPDATE YOUR CODE
+═══════════════════════════════════════════════════════════════
+
+Open: lookbackcafe/website/config/email.php
+
+Find these lines and update:
+
+define('SMTP_HOST', 'smtp-relay.brevo.com');
+define('SMTP_PORT', 587);
+define('SMTP_USERNAME', 'YOUR_BREVO_EMAIL');      ← Your Brevo login email
+define('SMTP_PASSWORD', 'YOUR_SMTP_KEY');          ← The SMTP key you copied
+define('SMTP_FROM_EMAIL', 'YOUR_VERIFIED_EMAIL');  ← Email you verified in Step 3
+
+Example:
+define('SMTP_USERNAME', 'john@example.com');
+define('SMTP_PASSWORD', 'xsmtpsib-a1b2c3d4...');
+define('SMTP_FROM_EMAIL', 'noreply@lookbackcafe.com');
+
+═══════════════════════════════════════════════════════════════
+STEP 5: TEST IT!
+═══════════════════════════════════════════════════════════════
+
+1. Open: http://localhost:8080/website/test_newsletter.php
+2. Enter YOUR email address
+3. Click "Send Test Newsletter"
+4. Check your inbox (and spam folder)
+5. You should receive the email!
+
+═══════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+❌ "SMTP Error: Could not authenticate"
+   → Check SMTP_USERNAME and SMTP_PASSWORD are correct
+   → Use SMTP key, NOT your Brevo account password
+
+❌ "SMTP Error: Could not connect"
+   → Check internet connection
+   → Verify SMTP_HOST is 'smtp-relay.brevo.com'
+   → Verify SMTP_PORT is 587
+
+❌ No email received
+   → Check spam/junk folder
+   → Verify sender email is verified in Brevo
+   → Check Brevo dashboard > Logs for errors
+
+❌ "Sender not verified"
+   → Go to Brevo > Settings > Senders & IP
+   → Click verification link in email
+   → Wait for "Verified" status
+
+═══════════════════════════════════════════════════════════════
+DAILY LIMITS
+═══════════════════════════════════════════════════════════════
+
+Free Plan: 300 emails per day
+
+If you need more:
+- Upgrade to paid plan
+- Or use multiple SMTP services
+- Or use SendGrid/Mailgun as alternative
+
+═══════════════════════════════════════════════════════════════
+NEED HELP?
+═══════════════════════════════════════════════════════════════
+
+Brevo Support: https://help.brevo.com/
+Brevo Dashboard: https://app.brevo.com/
+
+═══════════════════════════════════════════════════════════════

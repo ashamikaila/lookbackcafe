@@ -15,6 +15,9 @@
     <div class="background-overlay"></div>
     
     <div class="login-card">
+        <a href="main.php" class="back-to-home">
+            ← Back to Home
+        </a>
         <div class="logo">
             <img src="../resources/img/LOGIN/logo.jpg" alt="Look Back Café">
         </div>

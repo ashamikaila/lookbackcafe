@@ -1,0 +1,121 @@
+/* Newsletter page specific styles */
+
+.inline-form {
+    display: inline;
+}
+
+.no-subscribers {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.no-subscribers-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    display: block;
+    opacity: 0.5;
+}
+
+/* Newsletter form styles */
+.newsletter-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.newsletter-form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+.form-help {
+    color: #666;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.template-box {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 5px;
+}
+
+.template-box strong {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.template-code {
+    display: block;
+    background: white;
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+.btn-primary {
+    background: #8B4513;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background: #6d3410;
+}
+
+.btn-secondary {
+    margin-left: 10px;
+    padding: 12px 30px;
+    background: #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background: #ccc;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+}

@@ -485,3 +485,14 @@ footer {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
+
+/* Footer logo styling */
+footer .logo {
+    margin-left: -10px;
+}
+
+/* Newsletter success message */
+.newsletter-success {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}

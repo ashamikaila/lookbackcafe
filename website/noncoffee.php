@@ -12,7 +12,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-…" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Look Back Café | Non-COffee Series</title>
+        <title>Look Back Café | Non-Coffee Series</title>
         <link rel="stylesheet" href="../resources/css/noncoffee.css">
         <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     </head>
@@ -207,7 +207,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
                             <i class="fa-brands fa-tiktok"></i></a> 
                         </div>
-                        <div class="logo" style="margin-left: -10px;">
+                        <div class="logo">
                             <img src="../resources/img/logo.jpg" alt="">
                         </div>
                     </form>

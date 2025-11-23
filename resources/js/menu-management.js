@@ -1,11 +1,40 @@
-const menuData = {
-    espresso: [
-        {
-            id: 1,
-            name: "Affogato",
-            image: "../resources/img/MENU/ESPRESSO/affogato.jpg",
-            prices: { "16oz": 145 }
-        },
+// Menu data will be loaded from database
+let menuData = {};
+
+// Fetch menu data from database
+async function loadMenuDataFromDB() {
+    try {
+        const response = await fetch('api/menu-items.php');
+        const items = await response.json();
+        
+        // Group items by category
+        menuData = {};
+        items.forEach(item => {
+            if (!menuData[item.category]) {
+                menuData[item.category] = [];
+            }
+            menuData[item.category].push(item);
+        });
+        
+        // Load the current category
+        loadProducts(currentCategory);
+    } catch (error) {
+        console.error('Error loading menu data:', error);
+        // Fallback to hardcoded data if database fails
+        loadFallbackData();
+    }
+}
+
+// Fallback data in case database is not available
+function loadFallbackData() {
+    menuData = {
+        espresso: [
+            {
+                id: 1,
+                name: "Affogato",
+                image: "../resources/img/MENU/ESPRESSO/affogato.jpg",
+                prices: { "16oz": 145 }
+            },
         {
             id: 2,
             name: "Spanish Latte",
@@ -334,8 +363,10 @@ const menuData = {
             image: "../resources/img/MENU/WAFFLE/strawberrry.jpg",
             prices: { "regular": 90 }
         }
-    ],
-};
+        ],
+    };
+    loadProducts(currentCategory);
+}
 
 // Category display names
 const categoryNames = {
@@ -450,47 +481,51 @@ function closeEditProductModal() {
 }
 
 // Product management functions
-function addNewProduct() {
+async function addNewProduct() {
     const form = document.getElementById('addProductForm');
     const formData = new FormData(form);
     
     // Get all price values
-    const prices = {
-        "16oz": formData.get('price_16oz') || null,
-        "upsize": formData.get('price_upsize') || null,
-        "1liter": formData.get('price_1liter') || null,
-        "hot": formData.get('price_hot') || null,
-        "500ml": formData.get('price_500ml') || null,
-        "regular": formData.get('price_regular') || null
-    };
-    
-    // Remove null prices
-    Object.keys(prices).forEach(key => {
-        if (prices[key] === null) {
-            delete prices[key];
-        }
-    });
+    const prices = {};
+    if (formData.get('price_16oz')) prices['16oz'] = parseFloat(formData.get('price_16oz'));
+    if (formData.get('price_upsize')) prices['upsize'] = parseFloat(formData.get('price_upsize'));
+    if (formData.get('price_1liter')) prices['1liter'] = parseFloat(formData.get('price_1liter'));
+    if (formData.get('price_hot')) prices['hot'] = parseFloat(formData.get('price_hot'));
+    if (formData.get('price_500ml')) prices['500ml'] = parseFloat(formData.get('price_500ml'));
+    if (formData.get('price_regular')) prices['regular'] = parseFloat(formData.get('price_regular'));
     
     // Create new product object
     const newProduct = {
-        id: Date.now(),
         name: formData.get('productName'),
+        category: formData.get('productCategory'),
         image: formData.get('productImage') || '../resources/img/placeholder.jpg',
         prices: prices
     };
     
-    // Add to menuData
-    const category = formData.get('productCategory');
-    if (!menuData[category]) {
-        menuData[category] = [];
+    try {
+        // Save to database
+        const response = await fetch('../website/api/menu-items.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProduct)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Reload menu data from database
+            await loadMenuDataFromDB();
+            closeAddProductModal();
+            alert('Product added successfully!');
+        } else {
+            alert('Failed to add product. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error adding product:', error);
+        alert('Failed to add product. Please try again.');
     }
-    menuData[category].push(newProduct);
-    
-    // Reload products
-    loadProducts(currentCategory);
-    closeAddProductModal();
-    
-    alert('Product added successfully!');
 }
 
 function editProduct(productId, category) {
@@ -515,42 +550,76 @@ function editProduct(productId, category) {
     openEditProductModal();
 }
 
-function saveProductChanges() {
+async function saveProductChanges() {
     const productId = parseInt(document.getElementById('editProductId').value);
     const category = document.getElementById('editProductCategory').value;
     
-    const product = menuData[category].find(p => p.id === productId);
-    if (!product) return;
+    const prices = {};
+    const price16oz = document.getElementById('editPrice16oz').value;
+    const priceUpsize = document.getElementById('editPriceUpsize').value;
+    const price1liter = document.getElementById('editPrice1liter').value;
+    const priceHot = document.getElementById('editPriceHot').value;
+    const price500ml = document.getElementById('editPrice500ml').value;
+    const priceRegular = document.getElementById('editPriceRegular').value;
     
-    product.name = document.getElementById('editProductName').value;
-    product.image = document.getElementById('editProductImage').value;
+    if (price16oz) prices['16oz'] = parseFloat(price16oz);
+    if (priceUpsize) prices['upsize'] = parseFloat(priceUpsize);
+    if (price1liter) prices['1liter'] = parseFloat(price1liter);
+    if (priceHot) prices['hot'] = parseFloat(priceHot);
+    if (price500ml) prices['500ml'] = parseFloat(price500ml);
+    if (priceRegular) prices['regular'] = parseFloat(priceRegular);
     
-    product.prices = {
-        "16oz": document.getElementById('editPrice16oz').value || null,
-        "upsize": document.getElementById('editPriceUpsize').value || null,
-        "1liter": document.getElementById('editPrice1liter').value || null,
-        "hot": document.getElementById('editPriceHot').value || null,
-        "500ml": document.getElementById('editPrice500ml').value || null,
-        "regular": document.getElementById('editPriceRegular').value || null
+    const updatedProduct = {
+        id: productId,
+        name: document.getElementById('editProductName').value,
+        image: document.getElementById('editProductImage').value,
+        category: category,
+        prices: prices
     };
     
-    Object.keys(product.prices).forEach(key => {
-        if (product.prices[key] === null) {
-            delete product.prices[key];
+    try {
+        const response = await fetch('../website/api/menu-items.php', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedProduct)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            await loadMenuDataFromDB();
+            closeEditProductModal();
+            alert('Product updated successfully!');
+        } else {
+            alert('Failed to update product. Please try again.');
         }
-    });
-    
-    loadProducts(currentCategory);
-    closeEditProductModal();
-    
-    alert('Product updated successfully!');
+    } catch (error) {
+        console.error('Error updating product:', error);
+        alert('Failed to update product. Please try again.');
+    }
 }
 
-function deleteProduct(productId, category) {
+async function deleteProduct(productId, category) {
     if (confirm('Are you sure you want to delete this product?')) {
-        menuData[category] = menuData[category].filter(p => p.id !== productId);
-        loadProducts(currentCategory);
-        alert('Product deleted successfully!');
+        try {
+            const response = await fetch(`../website/api/menu-items.php?id=${productId}`, {
+                method: 'DELETE'
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                await loadMenuDataFromDB();
+                alert('Product deleted successfully!');
+            } else {
+                alert('Failed to delete product. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            alert('Failed to delete product. Please try again.');
+        }
     }
 }
 
@@ -578,9 +647,10 @@ function changeProductImage(productId, category) {
 
 document.addEventListener('DOMContentLoaded', function() {
     setupCategoryTabs();
-    loadProducts('espresso');
     
-
+    // Load menu data from database
+    loadMenuDataFromDB();
+    
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
         modal.addEventListener('click', function(e) {

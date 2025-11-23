@@ -1,3 +1,103 @@
+<?php
+session_start();
+require_once 'config/db.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login_as.php");
+    exit();
+}
+
+// Include email configuration
+require_once 'config/email.php';
+
+// Handle newsletter sending
+if (isset($_POST['send_newsletter'])) {
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+    $admin_id = $_SESSION['user_id'];
+    
+    // Send bulk newsletter using PHPMailer
+    $result = send_bulk_newsletter($subject, $message);
+    
+    if ($result['sent'] > 0) {
+        // Log the newsletter in database
+        $stmt = $conn->prepare("INSERT INTO newsletters_sent (subject, message, sent_by, recipients_count) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssii", $subject, $message, $admin_id, $result['sent']);
+        $stmt->execute();
+        
+        // Log activity
+        $activity_desc = "Sent newsletter: $subject to {$result['sent']} subscribers";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'newsletter', ?, ?)");
+        $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
+        $log_stmt->execute();
+        
+        $message_text = "Newsletter sent successfully to {$result['sent']} subscribers!";
+        if ($result['failed'] > 0) {
+            $message_text .= " ({$result['failed']} failed)";
+        }
+        $_SESSION['newsletter_message'] = $message_text;
+        $_SESSION['message_type'] = 'success';
+    } else {
+        $_SESSION['newsletter_message'] = "Failed to send newsletter. No subscribers or all emails failed.";
+        $_SESSION['message_type'] = 'error';
+    }
+    
+    header("Location: newsletter.php");
+    exit();
+}
+
+// Handle unsubscribe
+if (isset($_POST['unsubscribe'])) {
+    $email = $_POST['email'];
+    $stmt = $conn->prepare("UPDATE newsletter_subscribers SET is_active = 0 WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    
+    if ($stmt->execute()) {
+        $_SESSION['newsletter_message'] = "Email unsubscribed successfully.";
+        $_SESSION['message_type'] = 'success';
+    }
+    
+    header("Location: newsletter.php");
+    exit();
+}
+
+// Handle CSV export
+if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="newsletter_subscribers_' . date('Y-m-d') . '.csv"');
+    
+    $output = fopen('php://output', 'w');
+    fputcsv($output, array('ID', 'Email', 'Subscribed Date', 'Status'));
+    
+    $result = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC");
+    while ($row = $result->fetch_assoc()) {
+        fputcsv($output, array(
+            $row['id'],
+            $row['email'],
+            $row['subscribed_at'],
+            $row['is_active'] ? 'Active' : 'Inactive'
+        ));
+    }
+    
+    fclose($output);
+    exit();
+}
+
+// Get subscriber count
+$subscriberCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE is_active = 1")->fetch_assoc();
+
+// Get this month's subscribers
+$currentMonth = date('Y-m');
+$thisMonthCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE DATE_FORMAT(subscribed_at, '%Y-%m') = '$currentMonth' AND is_active = 1")->fetch_assoc()['total'];
+
+// Get newsletters sent count
+$newslettersSent = $conn->query("SELECT COUNT(*) as total FROM newsletters_sent")->fetch_assoc()['total'];
+
+// Get all subscribers
+$subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +105,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newsletter Management - Look Back Café</title>
     <link rel="stylesheet" href="../resources/css/admindash.css">
+    <link rel="stylesheet" href="../resources/css/newsletter.css">
     <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,7 +129,7 @@
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,7 +139,7 @@
             <header class="admin-header">
                 <h1>Newsletter Management</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 
@@ -59,7 +160,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>0</h3>
+                        <h3><?php echo $thisMonthCount; ?></h3>
                         <p>This Month</p>
                     </div>
                 </div>
@@ -69,7 +170,7 @@
                         <i class="fas fa-paper-plane"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>0</h3>
+                        <h3><?php echo $newslettersSent; ?></h3>
                         <p>Newsletters Sent</p>
                     </div>
                 </div>
@@ -135,14 +236,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (count($subscribers) > 0): ?>
-                                <?php foreach ($subscribers as $subscriber): ?>
+                            <?php if ($subscribers->num_rows > 0): ?>
+                                <?php while ($subscriber = $subscribers->fetch_assoc()): ?>
                                 <tr>
                                     <td><?php echo $subscriber['id']; ?></td>
                                     <td><?php echo htmlspecialchars($subscriber['email']); ?></td>
                                     <td><?php echo date('M j, Y g:i A', strtotime($subscriber['subscribed_at'])); ?></td>
                                     <td>
-                                        <form action="newsletter.php" method="POST" style="display: inline;">
+                                        <form action="newsletter.php" method="POST" class="inline-form">
                                             <input type="hidden" name="email" value="<?php echo $subscriber['email']; ?>">
                                             <button type="submit" name="unsubscribe" class="btn btn-delete btn-sm" onclick="return confirm('Are you sure you want to unsubscribe this email?')">
                                                 <i class="fas fa-user-minus"></i> Unsubscribe
@@ -150,11 +251,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="4" style="text-align: center; padding: 20px; color: #666;">
-                                        <i class="fas fa-envelope" style="font-size: 48px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                                    <td colspan="4" class="no-subscribers">
+                                        <i class="fas fa-envelope no-subscribers-icon"></i>
                                         No subscribers yet
                                     </td>
                                 </tr>
@@ -188,33 +289,6 @@
         </div>
     </div>
 
-    <script>
-        function previewNewsletter() {
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            if (!subject || !message) {
-                alert('Please fill in both subject and message fields.');
-                return;
-            }
-            
-            document.getElementById('previewSubject').textContent = subject;
-            document.getElementById('previewMessage').innerHTML = message.replace(/\n/g, '<br>');
-            
-            document.getElementById('previewModal').style.display = 'flex';
-        }
-        
-        function closePreview() {
-            document.getElementById('previewModal').style.display = 'none';
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('previewModal');
-            if (event.target === modal) {
-                closePreview();
-            }
-        }
-    </script>
+    <script src="../resources/js/newsletter.js"></script>
 </body>
 </html>

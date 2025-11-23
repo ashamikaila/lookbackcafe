@@ -1,0 +1,21 @@
+/* Business Info page specific styles */
+
+.social-icon-facebook {
+    color: #1877f2;
+}
+
+.social-icon-instagram {
+    color: #e4405f;
+}
+
+.social-icon-tiktok {
+    color: #000000;
+}
+
+.form-actions {
+    display: none;
+}
+
+.form-actions.visible {
+    display: block;
+}

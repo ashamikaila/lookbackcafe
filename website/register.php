@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,9 @@
     <div class="background-overlay"></div>
     
     <div class="login-card">
+        <a href="main.php" class="back-to-home">
+            ← Back to Home
+        </a>
         <div class="logo">
             <img src="../resources/img/LOGIN/logo.jpg" alt="Look Back Café">
         </div>
@@ -72,6 +76,11 @@
                 svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
+
+        <?php if (isset($_SESSION['error_message'])): ?>
+            alert('<?php echo addslashes($_SESSION['error_message']); ?>');
+            <?php unset($_SESSION['error_message']); ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>

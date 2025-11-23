@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,9 @@
     <div class="background-overlay"></div>
     
     <div class="login-card">
+        <a href="main.php" class="back-to-home">
+            ← Back to Home
+        </a>
         <div class="logo">
             <img src="../resources/img/LOGIN/logo.jpg" alt="Look Back Café">
         </div>
@@ -41,7 +45,7 @@
             </div>
             
             <div class="forgot-password">
-                <a href="forgot_pass.php">Forgot password?</a>
+                <a href="forgot_password.php">Forgot password?</a>
             </div>
             
             <button type="submit" class="submit-button">Login</button>
@@ -67,17 +71,10 @@
             }
         }
 
-        // Show alert if error parameter exists
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('error') === '1') {
-                alert('Incorrect Email or Password. Try Again.');
-                // Remove error parameter from URL
-                const url = new URL(window.location);
-                url.searchParams.delete('error');
-                window.history.replaceState({}, '', url);
-            }
-        });
+        <?php if (isset($_SESSION['error_message'])): ?>
+            alert('<?php echo addslashes($_SESSION['error_message']); ?>');
+            <?php unset($_SESSION['error_message']); ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>

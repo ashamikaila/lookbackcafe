@@ -1,3 +1,20 @@
+<?php
+session_start();
+require_once 'config/db.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login_as.php");
+    exit();
+}
+
+// Get current photo wall caption
+$photoCaption = $conn->query("SELECT content_value FROM page_content WHERE page_name = 'photowall' AND section_name = 'caption'")->fetch_assoc();
+$captionText = $photoCaption ? $photoCaption['content_value'] : "A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We're so grateful for your support!";
+
+// Get photo wall images
+$photos = $conn->query("SELECT * FROM photo_wall WHERE is_active = 1 ORDER BY photo_order ASC");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +44,7 @@
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,7 +54,7 @@
             <header class="admin-header">
                 <h1>Photo Wall Management</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 
@@ -51,11 +68,11 @@
                 </div>
                 
                 <div class="caption-editor">
-                    <textarea id="captionText" class="caption-textarea" rows="4" placeholder="Enter your photo wall caption here...">A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We're so grateful for your support!</textarea>
+                    <textarea id="captionText" class="caption-textarea" rows="4" placeholder="Enter your photo wall caption here..."><?php echo htmlspecialchars($captionText); ?></textarea>
                     <div class="caption-preview">
                         <h3>Preview:</h3>
                         <div class="preview-caption" id="captionPreview">
-                            A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We're so grateful for your support!
+                            <?php echo htmlspecialchars($captionText); ?>
                         </div>
                     </div>
                 </div>
@@ -141,7 +158,7 @@
                 <h2>Live Preview</h2>
                 <div class="preview-container">
                     <div class="preview-caption-display">
-                        <h1 id="previewCaptionText">A look back at the moments that made Look Back Café special — thank you to every smile, every visit, and every memory. We're so grateful for your support!</h1>
+                        <h1 id="previewCaptionText"><?php echo htmlspecialchars($captionText); ?></h1>
                     </div>
                     <div class="preview-scroll">
                         <div class="scrolling-gallery-preview">

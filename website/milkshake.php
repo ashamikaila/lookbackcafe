@@ -118,7 +118,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <a href="https://www.tiktok.com/@lookbackcafe" target="_blank">
                             <i class="fa-brands fa-tiktok"></i></a> 
                         </div>
-                        <div class="logo" style="margin-left: -10px;">
+                        <div class="logo">
                             <img src="../resources/img/logo.jpg" alt="">
                         </div>
                     </form>

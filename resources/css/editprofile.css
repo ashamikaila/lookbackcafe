@@ -48,6 +48,27 @@ body {
     width: 100%;
 }
 
+.back-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.success-message {
+    display: block;
+}
+
+.error-message {
+    display: block;
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
 .profile-header {
     background: #ffffff;
     padding: 25px 20px 15px 20px;

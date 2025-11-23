@@ -1,3 +1,22 @@
+<?php
+session_start();
+require_once 'config/db.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login_as.php");
+    exit();
+}
+
+// Get statistics
+$userCount = $conn->query("SELECT COUNT(*) as total FROM users")->fetch_assoc()['total'];
+$subscriberCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE is_active = 1")->fetch_assoc()['total'];
+
+// Get monthly visitors
+$currentMonth = date('Y-m');
+$visitorQuery = $conn->query("SELECT SUM(unique_visitors) as total FROM site_analytics WHERE DATE_FORMAT(visit_date, '%Y-%m') = '$currentMonth'");
+$monthlyVisitors = $visitorQuery->fetch_assoc()['total'] ?? 0;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +47,7 @@
                     <li class="active"><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,7 +56,7 @@
             <header class="admin-header">
                 <h1>Analytics Dashboard</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 
@@ -67,27 +86,27 @@
                     <div class="metric-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="metric-value">0</div>
+                    <div class="metric-value"><?php echo $userCount; ?></div>
                     <div class="metric-label">Total Users</div>
-                    <div class="metric-change">No data yet</div>
+                    <div class="metric-change"><?php echo $userCount > 0 ? 'Active' : 'No data yet'; ?></div>
                 </div>
                 
                 <div class="metric-card">
                     <div class="metric-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <div class="metric-value">0</div>
+                    <div class="metric-value"><?php echo $subscriberCount; ?></div>
                     <div class="metric-label">Newsletter Subscribers</div>
-                    <div class="metric-change">No data yet</div>
+                    <div class="metric-change"><?php echo $subscriberCount > 0 ? 'Active' : 'No data yet'; ?></div>
                 </div>
                 
                 <div class="metric-card">
                     <div class="metric-icon">
                         <i class="fas fa-eye"></i>
                     </div>
-                    <div class="metric-value">0</div>
+                    <div class="metric-value"><?php echo $monthlyVisitors; ?></div>
                     <div class="metric-label">Monthly Visitors</div>
-                    <div class="metric-change">No data yet</div>
+                    <div class="metric-change"><?php echo $monthlyVisitors > 0 ? 'This month' : 'No data yet'; ?></div>
                 </div>
             </div>
 

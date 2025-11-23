@@ -57,7 +57,7 @@ $userInitials = getUserInitials($userName);
                 </div>
                 <div class="user-menu" id="userMenu">
                     <p class="user-menu-name"><?php echo htmlspecialchars($userName); ?></p>
-                    <a href="profile.php">Profile</a>
+                    <a href="editprofile.php">Profile</a>
                     <a href="auth/logout.php">Logout</a>
                 </div>
             </div>

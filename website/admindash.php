@@ -1,3 +1,26 @@
+<?php
+session_start();
+require_once 'config/db.php';
+require_once 'config/security.php';
+
+// Configure secure session
+configure_secure_session();
+
+// Check if admin is logged in
+require_auth('admin');
+
+// Get statistics
+$userCount = $conn->query("SELECT COUNT(*) as total FROM users")->fetch_assoc()['total'];
+$subscriberCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE is_active = 1")->fetch_assoc()['total'];
+
+// Get monthly visitors (current month)
+$currentMonth = date('Y-m');
+$visitorQuery = $conn->query("SELECT SUM(unique_visitors) as total FROM site_analytics WHERE DATE_FORMAT(visit_date, '%Y-%m') = '$currentMonth'");
+$monthlyVisitors = $visitorQuery->fetch_assoc()['total'] ?? 0;
+
+// Get recent activities
+$recentActivities = $conn->query("SELECT * FROM admin_activity_log ORDER BY created_at DESC LIMIT 5");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +51,7 @@
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,7 +61,7 @@
             <header class="admin-header">
                 <h1>Dashboard Overview</h1>
                 <div class="user-info">
-                    <span>Welcome, Admin</span>
+                    <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 </div>
             </header>
 
@@ -49,7 +72,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>0</h3>
+                        <h3><?php echo $userCount; ?></h3>
                         <p>Total Users</p>
                     </div>
                 </div>
@@ -59,7 +82,7 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>0</h3>
+                        <h3><?php echo $subscriberCount; ?></h3>
                         <p>Newsletter Subscribers</p>
                     </div>
                 </div>
@@ -69,7 +92,7 @@
                         <i class="fas fa-eye"></i>
                     </div>
                     <div class="stat-info">
-                        <h3>0</h3>
+                        <h3><?php echo $monthlyVisitors; ?></h3>
                         <p>Monthly Visitors</p>
                     </div>
                 </div>
@@ -104,11 +127,21 @@
             <div class="recent-activities">
                 <h2>Recent Activities</h2>
                 <div class="activity-list">
-                    <div class="activity-item">
-                        <i class="fas fa-info-circle"></i>
-                        <span>No recent activities</span>
-                        <span class="activity-time">-</span>
-                    </div>
+                    <?php if ($recentActivities->num_rows > 0): ?>
+                        <?php while ($activity = $recentActivities->fetch_assoc()): ?>
+                            <div class="activity-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span><?php echo htmlspecialchars($activity['activity_description']); ?></span>
+                                <span class="activity-time"><?php echo date('M j, g:i A', strtotime($activity['created_at'])); ?></span>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <div class="activity-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span>No recent activities</span>
+                            <span class="activity-time">-</span>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
