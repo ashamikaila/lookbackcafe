@@ -53,11 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo json_encode($items);
 }
 
-// POST - Add new menu item (or update if id is provided)
+// POST - Add new menu item
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
 
-    // normalize input variables to ensure bind_param receives variables (not expressions)
     $name = $data['name'] ?? null;
     $category_val = $data['category'] ?? null;
     $image = $data['image'] ?? null;
@@ -67,81 +66,95 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price_hot = isset($data['prices']['hot']) ? (float)$data['prices']['hot'] : null;
     $price_500ml = isset($data['prices']['500ml']) ? (float)$data['prices']['500ml'] : null;
     $price_regular = isset($data['prices']['regular']) ? (float)$data['prices']['regular'] : null;
-    $item_id = isset($data['id']) ? (int)$data['id'] : null;
 
-    if ($item_id === null) {
-        // INSERT new item
-        $stmt = $conn->prepare("INSERT INTO menu_items (item_name, category, image_path, price_16oz, price_upsize, price_1liter, price_hot, price_500ml, price_regular) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        if (!$stmt) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to prepare insert statement']);
-            exit();
-        }
-        $stmt->bind_param(
-            "sssdddddd",
-            $name,
-            $category_val,
-            $image,
-            $price_16oz,
-            $price_upsize,
-            $price_1liter,
-            $price_hot,
-            $price_500ml,
-            $price_regular
-        );
+    $stmt = $conn->prepare("INSERT INTO menu_items (item_name, category, image_path, price_16oz, price_upsize, price_1liter, price_hot, price_500ml, price_regular) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to prepare insert statement']);
+        exit();
+    }
+    $stmt->bind_param(
+        "sssdddddd",
+        $name,
+        $category_val,
+        $image,
+        $price_16oz,
+        $price_upsize,
+        $price_1liter,
+        $price_hot,
+        $price_500ml,
+        $price_regular
+    );
 
-        if ($stmt->execute()) {
-            // Log activity
-            $admin_id = $_SESSION['user_id'];
-            $activity_desc = "Added menu item: {$name} in category {$category_val}";
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'menu_management', ?, ?)");
-            if ($log_stmt) {
-                $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
-                $log_stmt->execute();
-            }
-            echo json_encode(['success' => true, 'id' => $conn->insert_id]);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to add item']);
+    if ($stmt->execute()) {
+        $admin_id = $_SESSION['user_id'];
+        $activity_desc = "Added menu item: {$name} in category {$category_val}";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'menu_management', ?, ?)");
+        if ($log_stmt) {
+            $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
+            $log_stmt->execute();
         }
+        echo json_encode(['success' => true, 'id' => $conn->insert_id]);
     } else {
-        // UPDATE existing item
-        $stmt = $conn->prepare("UPDATE menu_items SET item_name = ?, image_path = ?, price_16oz = ?, price_upsize = ?, price_1liter = ?, price_hot = ?, price_500ml = ?, price_regular = ? WHERE item_id = ?");
-        if (!$stmt) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to prepare update statement']);
-            exit();
-        }
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to add item']);
+    }
+}
 
-        $stmt->bind_param(
-            "ssddddddi",
-            $name,
-            $image,
-            $price_16oz,
-            $price_upsize,
-            $price_1liter,
-            $price_hot,
-            $price_500ml,
-            $price_regular,
-            $item_id
-        );
+// PUT - Update menu item
+elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    
+    $item_id = isset($data['id']) ? (int)$data['id'] : null;
+    $name = $data['name'] ?? null;
+    $image = $data['image'] ?? null;
+    $price_16oz = isset($data['prices']['16oz']) ? (float)$data['prices']['16oz'] : null;
+    $price_upsize = isset($data['prices']['upsize']) ? (float)$data['prices']['upsize'] : null;
+    $price_1liter = isset($data['prices']['1liter']) ? (float)$data['prices']['1liter'] : null;
+    $price_hot = isset($data['prices']['hot']) ? (float)$data['prices']['hot'] : null;
+    $price_500ml = isset($data['prices']['500ml']) ? (float)$data['prices']['500ml'] : null;
+    $price_regular = isset($data['prices']['regular']) ? (float)$data['prices']['regular'] : null;
 
-        if ($stmt->execute()) {
-            // Log activity
-            $admin_id = $_SESSION['user_id'];
-            $activity_desc = "Updated menu item: {$name} (ID: {$item_id})";
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'menu_management', ?, ?)");
-            if ($log_stmt) {
-                $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
-                $log_stmt->execute();
-            }
-            echo json_encode(['success' => true]);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Failed to update item']);
+    if (!$item_id) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Missing item ID']);
+        exit();
+    }
+
+    $stmt = $conn->prepare("UPDATE menu_items SET item_name = ?, image_path = ?, price_16oz = ?, price_upsize = ?, price_1liter = ?, price_hot = ?, price_500ml = ?, price_regular = ? WHERE item_id = ?");
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to prepare update statement']);
+        exit();
+    }
+
+    $stmt->bind_param(
+        "ssddddddi",
+        $name,
+        $image,
+        $price_16oz,
+        $price_upsize,
+        $price_1liter,
+        $price_hot,
+        $price_500ml,
+        $price_regular,
+        $item_id
+    );
+
+    if ($stmt->execute()) {
+        $admin_id = $_SESSION['user_id'];
+        $activity_desc = "Updated menu item: {$name} (ID: {$item_id})";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'menu_management', ?, ?)");
+        if ($log_stmt) {
+            $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
+            $log_stmt->execute();
         }
+        echo json_encode(['success' => true]);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to update item']);
     }
 }
 

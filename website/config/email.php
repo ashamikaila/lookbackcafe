@@ -67,7 +67,7 @@ function send_email($to, $subject, $message) {
  * Send OTP email
  */
 function send_otp_email($email, $otp, $name) {
-    $subject = "Password Reset OTP - Look Back Café";
+    $subject = "Password Reset OTP - Look Back Cafe";
     $message = "
     <h2>Password Reset Request</h2>
     <p>Hello $name,</p>
@@ -84,10 +84,10 @@ function send_otp_email($email, $otp, $name) {
  */
 function send_newsletter_email($email, $subject, $content) {
     $message = "
-    <h1>Look Back Café Newsletter</h1>
+    <h1>Look Back Cafe Newsletter</h1>
     $content
     <hr>
-    <p style='font-size: 12px; color: #666;'>Look Back Café</p>
+    <p style='font-size: 12px; color: #666;'>Look Back Cafe</p>
     ";
     
     return send_email($email, $subject, $message);
