@@ -51,6 +51,7 @@ $recentActivities = $conn->query("SELECT * FROM admin_activity_log ORDER BY crea
                     <li><a href="analytics.php">Analytics</a></li>
                     <li><a href="user-accounts.php">User Accounts</a></li>
                     <li><a href="business-info.php">Business Info</a></li>
+                    <li><a href="main.php">Back to Main</a></li>
                     <li><a href="auth/logout.php">Logout</a></li>
                 </ul>
             </nav>

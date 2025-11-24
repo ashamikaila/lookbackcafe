@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_otp'])) {
     
     $user = $result->fetch_assoc();
     
-    // Generate 6-digit OTP
-    $otp = sprintf("%06d", mt_rand(0, 999999));
+    // Generate 4-digit OTP
+    $otp = sprintf("%04d", mt_rand(0, 9999));
     $otp_hash = hash('sha256', $otp);
     $expires = date('Y-m-d H:i:s', time() + 600); // 10 minutes
     

@@ -4,8 +4,16 @@ let menuData = {};
 // Fetch menu data from database
 async function loadMenuDataFromDB() {
     try {
+        console.log('Fetching menu data from API...');
         const response = await fetch('api/menu-items.php');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const items = await response.json();
+        console.log('API Response:', items);
+        console.log('Number of items loaded:', items.length);
         
         // Group items by category
         menuData = {};
@@ -16,10 +24,14 @@ async function loadMenuDataFromDB() {
             menuData[item.category].push(item);
         });
         
+        console.log('Menu data grouped by category:', menuData);
+        console.log('Categories loaded:', Object.keys(menuData));
+        
         // Load the current category
         loadProducts(currentCategory);
     } catch (error) {
         console.error('Error loading menu data:', error);
+        console.log('Falling back to hardcoded data...');
         // Fallback to hardcoded data if database fails
         loadFallbackData();
     }
@@ -412,6 +424,8 @@ function loadProducts(category) {
 
 // Function to create a product card
 function createProductCard(product, category) {
+    console.log('Creating product card for:', product.name, 'ID:', product.id, 'Type:', typeof product.id);
+    
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = `
@@ -504,7 +518,7 @@ async function addNewProduct() {
     
     try {
         // Save to database
-        const response = await fetch('../website/api/menu-items.php', {
+        const response = await fetch('api/menu-items.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -529,8 +543,37 @@ async function addNewProduct() {
 }
 
 function editProduct(productId, category) {
-    const product = menuData[category].find(p => p.id === productId);
-    if (!product) return;
+    console.log('=== EDIT PRODUCT DEBUG ===');
+    console.log('Product ID:', productId, 'Type:', typeof productId);
+    console.log('Category:', category);
+    console.log('All menu data:', menuData);
+    console.log('Category data:', menuData[category]);
+    
+    if (!menuData[category]) {
+        console.error('Category not found:', category);
+        console.log('Available categories:', Object.keys(menuData));
+        alert('Error: Category "' + category + '" not found. Available categories: ' + Object.keys(menuData).join(', '));
+        return;
+    }
+    
+    console.log('Products in category:', menuData[category]);
+    console.log('Looking for product with ID:', productId);
+    
+    // Try to find product - check both as number and string
+    let product = menuData[category].find(p => p.id === productId);
+    if (!product) {
+        // Try with type conversion
+        product = menuData[category].find(p => p.id == productId);
+    }
+    
+    console.log('Found product:', product);
+    
+    if (!product) {
+        console.error('Product not found with ID:', productId);
+        console.log('All product IDs in category:', menuData[category].map(p => ({ id: p.id, type: typeof p.id, name: p.name })));
+        alert('Error: Product not found. Product ID: ' + productId + '\nPlease check console for details.');
+        return;
+    }
     
     // Populate edit form
     document.getElementById('editProductId').value = productId;
@@ -547,6 +590,7 @@ function editProduct(productId, category) {
     document.getElementById('editPrice500ml').value = product.prices["500ml"] || '';
     document.getElementById('editPriceRegular').value = product.prices["regular"] || '';
     
+    console.log('Opening edit modal');
     openEditProductModal();
 }
 
@@ -577,34 +621,39 @@ async function saveProductChanges() {
         prices: prices
     };
     
+    console.log('Saving product changes:', updatedProduct);
+    
     try {
-        const response = await fetch('../website/api/menu-items.php', {
-            method: 'PUT',
+        const response = await fetch('api/menu-items.php', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedProduct)
         });
         
+        console.log('Response status:', response.status);
         const result = await response.json();
+        console.log('Response data:', result);
         
         if (result.success) {
             await loadMenuDataFromDB();
             closeEditProductModal();
             alert('Product updated successfully!');
         } else {
-            alert('Failed to update product. Please try again.');
+            alert('Failed to update product: ' + (result.error || 'Unknown error'));
+            console.error('Server error:', result);
         }
     } catch (error) {
         console.error('Error updating product:', error);
-        alert('Failed to update product. Please try again.');
+        alert('Failed to update product. Error: ' + error.message);
     }
 }
 
 async function deleteProduct(productId, category) {
     if (confirm('Are you sure you want to delete this product?')) {
         try {
-            const response = await fetch(`../website/api/menu-items.php?id=${productId}`, {
+            const response = await fetch(`api/menu-items.php?id=${productId}`, {
                 method: 'DELETE'
             });
             
@@ -644,6 +693,17 @@ function changeProductImage(productId, category) {
     };
     input.click();
 }
+
+// Make functions globally accessible
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
+window.changeProductImage = changeProductImage;
+window.openAddProductModal = openAddProductModal;
+window.closeAddProductModal = closeAddProductModal;
+window.openEditProductModal = openEditProductModal;
+window.closeEditProductModal = closeEditProductModal;
+window.addNewProduct = addNewProduct;
+window.saveProductChanges = saveProductChanges;
 
 document.addEventListener('DOMContentLoaded', function() {
     setupCategoryTabs();

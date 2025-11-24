@@ -154,7 +154,7 @@ require_auth('admin');
     </div>
 
     <!-- Edit Product Modal -->
-    <div id="editProductModal" class="modal">
+<div id="editProductModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Edit Product</h3>

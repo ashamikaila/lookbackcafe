@@ -6,6 +6,13 @@ require_once 'config/db.php';
 
 // Handle newsletter subscription
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_email'])) {
+    // Check if user is logged in
+    if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+        $_SESSION['newsletter_error'] = "You must be logged in to subscribe to our newsletter.";
+        header("Location: main.php#newsletter");
+        exit();
+    }
+    
     $email = filter_var($_POST['newsletter_email'], FILTER_SANITIZE_EMAIL);
     
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -79,7 +86,7 @@ $specialOffers = $conn->query("SELECT * FROM special_offers WHERE is_active = 1 
                     <p>create memories beyond</p>
                     <p>beans and brews.</p>
                 </div>
-                <a href="menu.php" class="btn">Menu</a>
+                <a href="espresso.php" class="btn">Menu</a>
             </div>
         </div>
         <div class="about">
@@ -140,6 +147,14 @@ $specialOffers = $conn->query("SELECT * FROM special_offers WHERE is_active = 1 
                             <?php 
                             echo $_SESSION['newsletter_success']; 
                             unset($_SESSION['newsletter_success']);
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['newsletter_error'])): ?>
+                        <div class="newsletter-error">
+                            <?php 
+                            echo $_SESSION['newsletter_error']; 
+                            unset($_SESSION['newsletter_error']);
                             ?>
                         </div>
                     <?php endif; ?>

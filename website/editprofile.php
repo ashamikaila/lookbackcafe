@@ -102,13 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_account'])) {
     if ($role === 'user') {
         $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
-        
+
         if ($stmt->execute()) {
-            // Destroy session
+            // Destroy session and redirect
             session_unset();
             session_destroy();
-            
-            // Redirect to main page with message
+            // Use absolute path for redirect to avoid issues
             header("Location: main.php?account_deleted=1");
             exit();
         } else {
@@ -149,8 +148,7 @@ $userData = $result->fetch_assoc();
             <div class="logo-container">
                 <img src="../resources/img/LOGIN/logo.jpg" alt="Look Back Café Logo" class="logo">
             </div>
-            <a href="<?php echo $role === 'admin' ? 'admindash.php' : 'main.php'; ?>" class="back-link">
-                Back <?php echo $role === 'admin'  ?>
+            <a href="<?php echo $role === 'admin' ? 'admindash.php' : 'admindash.php'; ?>" class="back-link">Back to Dashboard<?php echo $role === 'admin'  ?>
             </a>
         </div>
 
@@ -193,19 +191,37 @@ $userData = $result->fetch_assoc();
             <div class="profile-section">
                 <h2 class="section-title">Change Password</h2>
                 <form class="password-form" method="POST" action="editprofile.php">
-                    <div class="form-group">
+                    <div class="form-group password-group">
                         <label for="old_password">Old Password:</label>
                         <input type="password" id="old_password" name="old_password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('old_password')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group password-group">
                         <label for="new_password">New Password:</label>
                         <input type="password" id="new_password" name="new_password" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePassword('new_password')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group password-group">
                         <label for="confirm_password">Confirm Password:</label>
                         <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
                     </div>
                     
                     <button type="submit" name="change_password" class="btn btn-primary">Change Password</button>
@@ -225,6 +241,21 @@ $userData = $result->fetch_assoc();
     </div>
 
     <script>
+        function togglePassword(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleBtn = passwordInput.parentElement.querySelector('.toggle-password');
+            const svg = toggleBtn.querySelector('svg');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                svg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            } else {
+                passwordInput.type = 'password';
+                svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
+        }
+
+        // Confirm delete dialog (ensures form submits if confirmed)
         function confirmDelete() {
             return confirm("Are you sure you want to delete your account? This action cannot be undone.");
         }
@@ -240,6 +271,7 @@ $userData = $result->fetch_assoc();
                         e.preventDefault();
                         alert('New passwords do not match!');
                         return false;
+                        
                     }
                     
                     if (newPassword.length < 6) {
@@ -251,17 +283,12 @@ $userData = $result->fetch_assoc();
             }
 
             // Auto-hide success/error messages after 5 seconds
-            const messages = document.querySelectorAll('.success-message, .error-message');
-            messages.forEach(msg => {
-                if (msg.style.display === 'block') {
-                    setTimeout(() => {
-                        msg.style.opacity = '0';
-                        setTimeout(() => {
-                            msg.style.display = 'none';
-                        }, 300);
-                    }, 5000);
-                }
-            });
+            setTimeout(function() {
+                var msg = document.querySelector('.success-message');
+                if (msg) msg.style.display = 'none';
+                msg = document.querySelector('.error-message');
+                if (msg) msg.style.display = 'none';
+            }, 5000);
         });
     </script>
 </body>

@@ -11,13 +11,16 @@ require __DIR__ . '/../../vendor/phpmailer/phpmailer/src/Exception.php';
 require __DIR__ . '/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/../../vendor/phpmailer/phpmailer/src/SMTP.php';
 
-// SMTP Configuration
-define('SMTP_HOST', 'smtp-relay.brevo.com');
-define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'lookbackcafe.dev1@gmail.com');
-define('SMTP_PASSWORD', 'xsmtpsib-e6f4090dfca74e1d51c71de90d9ca0548f3f7dae397229c9cc92bfb84377ca64-0ihixZZDILHI5S50');
-define('SMTP_FROM_EMAIL', 'lookbackcafe.dev1@gmail.com');
-define('SMTP_FROM_NAME', 'Look Back Café');
+// Load Mailtrap configuration
+$mailtrap_config = require __DIR__ . '/mailtrap_config.php';
+
+// SMTP Configuration - Mailtrap
+define('SMTP_HOST', $mailtrap_config['host']);
+define('SMTP_PORT', $mailtrap_config['port']);
+define('SMTP_USERNAME', $mailtrap_config['username']);
+define('SMTP_PASSWORD', $mailtrap_config['password']);
+define('SMTP_FROM_EMAIL', $mailtrap_config['from_email']);
+define('SMTP_FROM_NAME', $mailtrap_config['from_name']);
 
 /**
  * Send email - Simple version
@@ -34,13 +37,12 @@ function send_email($to, $subject, $message) {
         $mail->Password = SMTP_PASSWORD;
         $mail->Port = SMTP_PORT;
         
-        // Disable SSL/TLS if OpenSSL not available
-        if (!extension_loaded('openssl')) {
-            $mail->SMTPSecure = false;
-            $mail->SMTPAutoTLS = false;
-        } else {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        }
+        // Mailtrap doesn't require SSL/TLS
+        $mail->SMTPSecure = false;
+        $mail->SMTPAutoTLS = false;
+        
+        // Enable verbose debug output (optional - comment out in production)
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         
         // Recipients
         $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
@@ -50,6 +52,7 @@ function send_email($to, $subject, $message) {
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $message;
+        $mail->AltBody = strip_tags($message); // Plain text version
         
         $mail->send();
         return true;
