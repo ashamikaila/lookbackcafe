@@ -56,9 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // POST - Add new menu item (or update if id is provided)
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
-    
-    // Log incoming data for debugging
-    error_log("POST data received: " . print_r($data, true));
 
     // normalize input variables to ensure bind_param receives variables (not expressions)
     $name = $data['name'] ?? null;
@@ -71,8 +68,6 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price_500ml = isset($data['prices']['500ml']) ? (float)$data['prices']['500ml'] : null;
     $price_regular = isset($data['prices']['regular']) ? (float)$data['prices']['regular'] : null;
     $item_id = isset($data['id']) ? (int)$data['id'] : null;
-    
-    error_log("Parsed item_id: " . ($item_id ?? 'NULL'));
 
     if ($item_id === null) {
         // INSERT new item
@@ -105,13 +100,10 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
                 $log_stmt->execute();
             }
-            error_log("Insert successful, new item_id: " . $conn->insert_id);
             echo json_encode(['success' => true, 'id' => $conn->insert_id]);
         } else {
-            $error_msg = $stmt->error;
-            error_log("Insert failed: " . $error_msg);
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Failed to add item: ' . $error_msg]);
+            echo json_encode(['error' => 'Failed to add item']);
         }
     } else {
         // UPDATE existing item
@@ -145,13 +137,10 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
                 $log_stmt->execute();
             }
-            error_log("Update successful for item_id: $item_id");
             echo json_encode(['success' => true]);
         } else {
-            $error_msg = $stmt->error;
-            error_log("Update failed: " . $error_msg);
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => 'Failed to update item: ' . $error_msg]);
+            echo json_encode(['error' => 'Failed to update item']);
         }
     }
 }

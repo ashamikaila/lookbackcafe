@@ -621,32 +621,27 @@ async function saveProductChanges() {
         prices: prices
     };
     
-    console.log('Saving product changes:', updatedProduct);
-    
     try {
         const response = await fetch('api/menu-items.php', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedProduct)
         });
         
-        console.log('Response status:', response.status);
         const result = await response.json();
-        console.log('Response data:', result);
         
         if (result.success) {
             await loadMenuDataFromDB();
             closeEditProductModal();
             alert('Product updated successfully!');
         } else {
-            alert('Failed to update product: ' + (result.error || 'Unknown error'));
-            console.error('Server error:', result);
+            alert('Failed to update product. Please try again.');
         }
     } catch (error) {
         console.error('Error updating product:', error);
-        alert('Failed to update product. Error: ' + error.message);
+        alert('Failed to update product. Please try again.');
     }
 }
 
