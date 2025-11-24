@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+// Security headers - fixes OWASP ZAP alerts
+require_once 'includes/security_init.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

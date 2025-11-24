@@ -1,4 +1,6 @@
 <?php
+// Security headers - fixes OWASP ZAP alerts
+require_once __DIR__ . '/includes/security_init.php';
 /**
  * PHP Configuration Checker
  * Checks if all required extensions are enabled for email functionality

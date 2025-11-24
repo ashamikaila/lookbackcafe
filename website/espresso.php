@@ -1,4 +1,6 @@
 <?php
+// Security headers - fixes OWASP ZAP alerts
+require_once __DIR__ . '/includes/security_init.php';
 // connect to db
 $conn = new mysqli("localhost", "root", "", "lookback_cafe");
 if ($conn->connect_error) {

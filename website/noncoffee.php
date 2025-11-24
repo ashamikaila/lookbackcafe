@@ -1,6 +1,7 @@
 <?php
+// Security headers - fixes OWASP ZAP alerts
+require_once __DIR__ . '/includes/security_init.php';
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 ?>
 <!DOCTYPE html>

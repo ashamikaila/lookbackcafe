@@ -1,4 +1,6 @@
 <?php
+// Security headers - fixes OWASP ZAP alerts
+require_once __DIR__ . '/includes/security_init.php';
 /**
  * Test Email Setup
  * Verify PHPMailer and email configuration

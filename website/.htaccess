@@ -29,8 +29,9 @@
     # Referrer Policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     
-    # Content Security Policy (adjust as needed)
-    # Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self';"
+    # Content Security Policy - FIX for OWASP ZAP Alert #1
+    # IMPORTANT: Uncommented and added missing directives: form-action and frame-ancestors
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https: http:; connect-src 'self'; media-src 'self'; object-src 'none'; frame-src 'self' https://www.google.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
     
     # Strict Transport Security (HSTS) - Only enable after HTTPS is working
     # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -48,8 +49,14 @@ Options -Indexes
     Deny from all
 </Files>
 
-# Prevent access to configuration files
-<FilesMatch "\.(env|sql|md)$">
+# Prevent access to configuration files and sensitive files
+<FilesMatch "\.(env|sql|md|bak|config|dist|fla|inc|ini|log|psd|sh|swp)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect against directory traversal
+<FilesMatch "^(#.*#|.*~)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
@@ -73,6 +80,19 @@ Options -Indexes
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/json "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
 </IfModule>
+
+# Remove server signature
+ServerSignature Off
+
+# Additional security for PHP files
+<FilesMatch "\.php$">
+    <IfModule mod_headers.c>
+        Header set X-Content-Type-Options "nosniff"
+    </IfModule>
+</FilesMatch>

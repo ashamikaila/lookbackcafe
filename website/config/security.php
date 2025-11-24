@@ -4,6 +4,12 @@
  * Implements password validation, encryption, and security helpers
  */
 
+// Include security headers
+require_once __DIR__ . '/headers.php';
+
+// Set security headers on every page that includes this file
+set_security_headers();
+
 // Password validation constants
 define('MIN_PASSWORD_LENGTH', 12);
 define('REQUIRE_UPPERCASE', true);
@@ -206,16 +212,37 @@ function decrypt_data($encrypted_data) {
 }
 
 /**
- * Sanitize user input to prevent XSS
+ * Sanitize user input to prevent XSS - Enhanced version
  * 
  * @param string $data The data to sanitize
  * @return string The sanitized data
  */
 function sanitize_input($data) {
+    if ($data === null) {
+        return '';
+    }
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    $data = htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     return $data;
+}
+
+/**
+ * Sanitize array of inputs recursively
+ * 
+ * @param array $data The array to sanitize
+ * @return array The sanitized array
+ */
+function sanitize_array($data) {
+    $sanitized = [];
+    foreach ($data as $key => $value) {
+        if (is_array($value)) {
+            $sanitized[$key] = sanitize_array($value);
+        } else {
+            $sanitized[$key] = sanitize_input($value);
+        }
+    }
+    return $sanitized;
 }
 
 /**
@@ -245,7 +272,7 @@ function generate_secure_token($length = 32) {
  */
 function is_https() {
     return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || $_SERVER['SERVER_PORT'] == 443
+        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
         || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 }
 
