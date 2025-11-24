@@ -23,137 +23,118 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <div class="all-prod">
             <h1>Menu</h1>
-            <h3> RICE MEAL <h/3>
+            <h3>RICE MEAL</h3>
         </div>
 
         <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/bbq.jpg" alt="">
-                        </div>
-                        <h2> Four Cheese Quesadilla</h2>
-                        <div class="prices">
-                            <div>
-                                <p>160</p>
-                            </div>
-                        </div>
+            <div class="best-sell">
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/bbq.jpg" alt="BBQ Rice Meal">
                     </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/chicken.jpg" alt="">
-                        </div>
-                        <h2>Beef Quesadilla</h2>
-                        <div class="prices">
-                            <div>
-                                <p>150</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/garlic.jpg" alt="">
-                        </div>
-                        <h2>Cheesy Bacon Fries</h2>
-                        <div class="prices">
-                            <div>
-                                <p>160</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/ham.jpg" alt="">
-                        </div>
-                        <h2>Plain Fries</h2>
-                        <div class="prices">
-                            <div>
-                                <p>130</p>
-                            </div>
+                    <h2>BBQ Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱160</p>
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-            </div>
-=======
-            </div>      
->>>>>>> 75dc04fac5e887f921991e647e3022f84d39296a
-        </div>
-
-        <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/hotdog.jpg" alt="">
-                        </div>
-                        <h2>Biscoff Caramel</h2>
-                        <div class="prices">
-                            <div>
-                                <p>100</p>
-                            </div>
-                        </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/chicken.jpg" alt="Chicken Rice Meal">
                     </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/maple.jpg" alt="">
-                        </div>
-                        <h2>Chicken & Waffle</h2>
-                        <div class="prices">
-                            <div>
-                                <p>150</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/sausilog.jpg" alt="">
-                        </div>
-                        <h2>Ham & Cheese</h2>
-                        <div class="prices">
-                            <div>
-                                <p>125</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/sriracha.jpg" alt="">
-                        </div>
-                        <h2>Ham & Egg</h2>
-                        <div class="prices">
-                            <div>
-                                <p>130</p>
-                            </div>
+                    <h2>Chicken Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱150</p>
                         </div>
                     </div>
                 </div>
-            </div>      
-        </div>
-        <div class="menu">
-            <div>
-                <div class="best-sell">
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/tapa.jpg" alt="">
-                        </div>
-                        <h2>Creamy Spinach</h2>
-                        <div class="prices">
-                            <div>
-                                <p>100</p>
-                            </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/garlic.jpg" alt="Garlic Rice Meal">
+                    </div>
+                    <h2>Garlic Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱160</p>
                         </div>
                     </div>
-                    <div class="table">
-                        <div class="menu-img">
-                            <img src="../resources/img/MENU/RICEMEAL/tocino.jpg" alt="">
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/ham.jpg" alt="Ham Rice Meal">
+                    </div>
+                    <h2>Ham Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱130</p>
                         </div>
-                        <h2>Strawberry and Cream</h2>
-                        <div class="prices">
-                            <div>
-                                <p>90</p>
-                            </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/hotdog.jpg" alt="Hotdog Rice Meal">
+                    </div>
+                    <h2>Hotdog Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱100</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/maple.jpg" alt="Maple Rice Meal">
+                    </div>
+                    <h2>Maple Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱150</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/sausilog.jpg" alt="Sausilog Rice Meal">
+                    </div>
+                    <h2>Sausilog Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱125</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/sriracha.jpg" alt="Sriracha Rice Meal">
+                    </div>
+                    <h2>Sriracha Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱130</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/tapa.jpg" alt="Tapa Rice Meal">
+                    </div>
+                    <h2>Tapa Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱100</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table">
+                    <div class="menu-img">
+                        <img src="../resources/img/MENU/RICEMEAL/tocino.jpg" alt="Tocino Rice Meal">
+                    </div>
+                    <h2>Tocino Rice Meal</h2>
+                    <div class="prices">
+                        <div>
+                            <p>₱90</p>
                         </div>
                     </div>
                 </div>
