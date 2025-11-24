@@ -41,9 +41,6 @@ function send_email($to, $subject, $message) {
         $mail->SMTPSecure = false;
         $mail->SMTPAutoTLS = false;
         
-        // Enable verbose debug output (optional - comment out in production)
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-        
         // Recipients
         $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
         $mail->addAddress($to);
@@ -113,7 +110,7 @@ function send_bulk_newsletter($subject, $content) {
                 $failed++;
             }
             
-            // Small delay
+            // Small delay to avoid hitting rate limits
             usleep(100000);
         }
     }

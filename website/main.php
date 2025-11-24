@@ -97,7 +97,21 @@ $specialOffers = $conn->query("SELECT * FROM special_offers WHERE is_active = 1 
         </div>
         <div class="memo">
             <div>
-                <h1><?php echo htmlspecialchars($photoCaptionText); ?></h1>
+                    <h1>
+        <?php
+        // Fetch the caption for the first active photo
+        $stmt = $conn->prepare("SELECT caption FROM photo_wall WHERE is_active = 1 ORDER BY photo_order LIMIT 1");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($row = $result->fetch_assoc()) {
+            // Display the caption inside <h1> tag
+            echo htmlspecialchars($row['caption']) ? $row['caption'] : "No caption available";
+        } else {
+            echo "No caption available"; // fallback if no active photo found
+        }
+        ?>
+    </h1>
             </div>
             <div class="gallery-container">
                 <div class="scrolling-gallery" id="gallery">

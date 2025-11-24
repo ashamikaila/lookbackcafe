@@ -534,11 +534,12 @@ async function addNewProduct() {
             closeAddProductModal();
             alert('Product added successfully!');
         } else {
-            alert('Failed to add product. Please try again.');
+            alert('Failed to add product: ' + (result.error || 'Unknown error'));
+            console.error('Server error:', result);
         }
     } catch (error) {
         console.error('Error adding product:', error);
-        alert('Failed to add product. Please try again.');
+        alert('Failed to add product. Error: ' + error.message);
     }
 }
 
@@ -623,7 +624,7 @@ async function saveProductChanges() {
     
     try {
         const response = await fetch('api/menu-items.php', {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -637,11 +638,12 @@ async function saveProductChanges() {
             closeEditProductModal();
             alert('Product updated successfully!');
         } else {
-            alert('Failed to update product. Please try again.');
+            alert('Failed to update product: ' + (result.error || 'Unknown error'));
+            console.error('Server error:', result);
         }
     } catch (error) {
         console.error('Error updating product:', error);
-        alert('Failed to update product. Please try again.');
+        alert('Failed to update product. Error: ' + error.message);
     }
 }
 
@@ -658,11 +660,12 @@ async function deleteProduct(productId, category) {
                 await loadMenuDataFromDB();
                 alert('Product deleted successfully!');
             } else {
-                alert('Failed to delete product. Please try again.');
+                alert('Failed to delete product: ' + (result.error || 'Unknown error'));
+                console.error('Server error:', result);
             }
         } catch (error) {
             console.error('Error deleting product:', error);
-            alert('Failed to delete product. Please try again.');
+            alert('Failed to delete product. Error: ' + error.message);
         }
     }
 }

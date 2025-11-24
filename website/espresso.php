@@ -51,8 +51,8 @@ if ($conn->connect_error) {
         <img src="../resources/img/logo.jpg" alt="">
     </div>
     <div class="login-btn">
-        <h2><a href="">Login/</a></h2>
-        <h2><a href="">Register</a></h2>
+        <h2><a href="login_as.php">Login/</a></h2>
+        <h2><a href="register.php">Register</a></h2>
     </div>
 </nav>
 

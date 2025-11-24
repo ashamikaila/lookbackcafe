@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once 'config/db.php';
 
 // Check if admin is logged in
@@ -208,9 +209,10 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         <button type="button" class="btn btn-secondary" onclick="previewNewsletter()">
                             <i class="fas fa-eye"></i> Preview
                         </button>
-                        <button type="submit" name="send_newsletter" class="btn btn-primary" onclick="return confirm('Are you sure you want to send this newsletter to all subscribers?')">
-                            <i class="fas fa-paper-plane"></i> Send Newsletter
-                        </button>
+<button type="submit" name="send_newsletter" class="btn btn-primary">
+    <i class="fas fa-paper-plane"></i> Send Newsletter
+</button>
+
                     </div>
                 </form>
             </div>
