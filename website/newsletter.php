@@ -17,49 +17,46 @@ if (isset($_POST['send_newsletter'])) {
     $subject = $_POST['subject'];
     $message = $_POST['message'];
     $admin_id = $_SESSION['user_id'];
-    
-    // Send bulk newsletter using PHPMailer
+
     $result = send_bulk_newsletter($subject, $message);
-    
+
     if ($result['sent'] > 0) {
-        // Log the newsletter in database
         $stmt = $conn->prepare("INSERT INTO newsletters_sent (subject, message, sent_by, recipients_count) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssii", $subject, $message, $admin_id, $result['sent']);
         $stmt->execute();
-        
-        // Log activity
+
         $activity_desc = "Sent newsletter: $subject to {$result['sent']} subscribers";
         $ip = $_SERVER['REMOTE_ADDR'];
         $log_stmt = $conn->prepare("INSERT INTO admin_activity_log (admin_id, activity_type, activity_description, ip_address) VALUES (?, 'newsletter', ?, ?)");
         $log_stmt->bind_param("iss", $admin_id, $activity_desc, $ip);
         $log_stmt->execute();
-        
-        $message_text = "Newsletter sent successfully to {$result['sent']} subscribers!";
+
+        $_SESSION['newsletter_message'] = "Newsletter sent successfully to {$result['sent']} subscribers!";
         if ($result['failed'] > 0) {
-            $message_text .= " ({$result['failed']} failed)";
+            $_SESSION['newsletter_message'] .= " ({$result['failed']} failed)";
         }
-        $_SESSION['newsletter_message'] = $message_text;
         $_SESSION['message_type'] = 'success';
     } else {
         $_SESSION['newsletter_message'] = "Failed to send newsletter. No subscribers or all emails failed.";
         $_SESSION['message_type'] = 'error';
     }
-    
+
     header("Location: newsletter.php");
     exit();
 }
 
-// Handle unsubscribe
+// Handle unsubscribe — FIXED (now uses ID)
 if (isset($_POST['unsubscribe'])) {
-    $email = $_POST['email'];
-    $stmt = $conn->prepare("UPDATE newsletter_subscribers SET is_active = 0 WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    
+    $id = $_POST['id'];  // important
+
+    $stmt = $conn->prepare("UPDATE newsletter_subscribers SET is_active = 0 WHERE id = ?");
+    $stmt->bind_param("i", $id);
+
     if ($stmt->execute()) {
         $_SESSION['newsletter_message'] = "Email unsubscribed successfully.";
         $_SESSION['message_type'] = 'success';
     }
-    
+
     header("Location: newsletter.php");
     exit();
 }
@@ -68,10 +65,10 @@ if (isset($_POST['unsubscribe'])) {
 if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="newsletter_subscribers_' . date('Y-m-d') . '.csv"');
-    
+
     $output = fopen('php://output', 'w');
     fputcsv($output, array('ID', 'Email', 'Subscribed Date', 'Status'));
-    
+
     $result = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC");
     while ($row = $result->fetch_assoc()) {
         fputcsv($output, array(
@@ -81,26 +78,23 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
             $row['is_active'] ? 'Active' : 'Inactive'
         ));
     }
-    
+
     fclose($output);
     exit();
 }
 
-// Get subscriber count
-$subscriberCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE is_active = 1")->fetch_assoc();
+// Load active subscribers only — FIXED
+$subscribers = $conn->query("SELECT * FROM newsletter_subscribers WHERE is_active = 1 ORDER BY id DESC");
 
-// Get this month's subscribers
+// Stats
+$subscriberCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE is_active = 1")->fetch_assoc();
 $currentMonth = date('Y-m');
 $thisMonthCount = $conn->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE DATE_FORMAT(subscribed_at, '%Y-%m') = '$currentMonth' AND is_active = 1")->fetch_assoc()['total'];
-
-// Get newsletters sent count
 $newslettersSent = $conn->query("SELECT COUNT(*) as total FROM newsletters_sent")->fetch_assoc()['total'];
-
-// Get all subscribers
-$subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subscribed_at DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,18 +102,21 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
     <link rel="stylesheet" href="../resources/css/admindash.css">
     <link rel="stylesheet" href="../resources/css/newsletter.css">
     <link rel="icon" type="image/jpg" href="../resources/img/favicon.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="admin-container">
+
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo-section">
                 <img src="../resources/img/LOGIN/logo.jpg" alt="Look Back Café" class="logo">
                 <h2>Admin Panel</h2>
             </div>
-            
+
             <nav class="admin-nav">
                 <ul>
                     <li><a href="admindash.php">Dashboard</a></li>
@@ -138,6 +135,7 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
 
         <!-- Main Content -->
         <div class="main-content">
+
             <header class="admin-header">
                 <h1>Newsletter Management</h1>
                 <div class="user-info">
@@ -156,7 +154,7 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         <p>Total Subscribers</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-chart-line"></i>
@@ -166,7 +164,7 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         <p>This Month</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-paper-plane"></i>
@@ -183,36 +181,35 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                 <div class="section-header">
                     <h2>Compose Newsletter</h2>
                 </div>
-                
+
                 <?php if (isset($_SESSION['newsletter_message'])): ?>
                     <div class="message <?php echo $_SESSION['message_type']; ?>">
-                        <?php 
-                        echo $_SESSION['newsletter_message']; 
+                        <?php
+                        echo $_SESSION['newsletter_message'];
                         unset($_SESSION['newsletter_message']);
                         unset($_SESSION['message_type']);
                         ?>
                     </div>
                 <?php endif; ?>
-                
+
                 <form action="newsletter.php" method="POST" class="newsletter-form">
                     <div class="form-group">
                         <label for="subject">Subject:</label>
                         <input type="text" id="subject" name="subject" required placeholder="Enter newsletter subject">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="message">Message:</label>
                         <textarea id="message" name="message" required placeholder="Write your newsletter content here..." rows="10"></textarea>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="previewNewsletter()">
                             <i class="fas fa-eye"></i> Preview
                         </button>
-<button type="submit" name="send_newsletter" class="btn btn-primary">
-    <i class="fas fa-paper-plane"></i> Send Newsletter
-</button>
-
+                        <button type="submit" name="send_newsletter" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Newsletter
+                        </button>
                     </div>
                 </form>
             </div>
@@ -227,7 +224,7 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="subscribers-table-container">
                     <table class="subscribers-table">
                         <thead>
@@ -241,19 +238,20 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         <tbody>
                             <?php if ($subscribers->num_rows > 0): ?>
                                 <?php while ($subscriber = $subscribers->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo $subscriber['id']; ?></td>
-                                    <td><?php echo htmlspecialchars($subscriber['email']); ?></td>
-                                    <td><?php echo date('M j, Y g:i A', strtotime($subscriber['subscribed_at'])); ?></td>
-                                    <td>
-                                        <form action="newsletter.php" method="POST" class="inline-form">
-                                            <input type="hidden" name="email" value="<?php echo $subscriber['email']; ?>">
-                                            <button type="submit" name="unsubscribe" class="btn btn-delete btn-sm" onclick="return confirm('Are you sure you want to unsubscribe this email?')">
-                                                <i class="fas fa-user-minus"></i> Unsubscribe
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td><?php echo $subscriber['id']; ?></td>
+                                        <td><?php echo htmlspecialchars($subscriber['email']); ?></td>
+                                        <td><?php echo date('M j, Y g:i A', strtotime($subscriber['subscribed_at'])); ?></td>
+                                        <td>
+                                            <form action="newsletter.php" method="POST" class="inline-form">
+                                                <input type="hidden" name="id" value="<?php echo $subscriber['id']; ?>">
+                                                <button type="submit" name="unsubscribe" class="btn btn-delete btn-sm"
+                                                    onclick="return confirm('Are you sure you want to unsubscribe this email?')">
+                                                    <i class="fas fa-user-minus"></i> Unsubscribe
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
@@ -266,32 +264,12 @@ $subscribers = $conn->query("SELECT * FROM newsletter_subscribers ORDER BY subsc
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Newsletter Preview Modal -->
-    <div id="previewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Newsletter Preview</h3>
-                <button type="button" class="btn-close" onclick="closePreview()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="newsletter-preview">
-                    <h2 id="previewSubject"></h2>
-                    <div id="previewMessage" class="preview-content"></div>
-                    <div class="preview-footer">
-                        <p><small>This is a preview of how your newsletter will appear to subscribers.</small></p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closePreview()">Close</button>
             </div>
         </div>
     </div>
 
     <script src="../resources/js/newsletter.js"></script>
+
 </body>
 </html>

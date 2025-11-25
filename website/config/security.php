@@ -29,16 +29,9 @@ $GLOBALS['weak_passwords'] = [
     "1234567890",
     "letmein",
     "welcome",
-    "monkey",
-    "dragon",
-    "master",
-    "sunshine",
-    "princess",
-    "football",
-    "baseball",
     "abc123",
     "iloveyou",
-    "trustno1"
+    "user",
 ];
 
 /**
@@ -72,7 +65,7 @@ function validate_password($password) {
     
     // Check for special character
     if (REQUIRE_SPECIAL_CHAR && !preg_match('/[^a-zA-Z0-9]/', $password)) {
-        $errors[] = "Password must contain at least one special character (!@#$%^&*()_+-=[]{}|;:,.<>?)";
+        $errors[] = "Password must contain at least one special character.";
     }
     
     // Check against weak password list

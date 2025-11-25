@@ -1,5 +1,4 @@
 <?php
-// Security headers - fixes OWASP ZAP alerts
 require_once 'includes/security_init.php';
 ?>
 <!DOCTYPE html>
