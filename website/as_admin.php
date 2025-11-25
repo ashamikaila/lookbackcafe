@@ -66,7 +66,7 @@ require_once 'includes/security_init.php';
         }
 
         <?php if (isset($_SESSION['error_message'])): ?>
-            alert('<?php echo addslashes($_SESSION['error_message']); ?>');
+            alert('<?php echo addslashes(string: $_SESSION['error_message']); ?>');
             <?php unset($_SESSION['error_message']); ?>
         <?php endif; ?>
     </script>
