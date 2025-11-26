@@ -365,7 +365,7 @@ function log_security_event($event_type, $description, $user_id = null) {
  * @param int $time_window Time window in seconds
  * @return bool True if rate limit exceeded
  */
-function check_rate_limit($identifier, $max_attempts = 5, $time_window = 900) {
+function check_rate_limit($identifier, $max_attempts = 5, $time_window = 60) {
     global $conn;
     
     $time_threshold = date('Y-m-d H:i:s', time() - $time_window);
@@ -395,8 +395,9 @@ function record_login_attempt($identifier, $success = false) {
     $stmt->bind_param("ssi", $identifier, $ip_address, $success_int);
     $stmt->execute();
     
-    // Clean up old attempts
-    $cleanup_time = date('Y-m-d H:i:s', time() - 86400); // 24 hours
+    // Clean up old attempts - keep only last 1 hour of data (3600 seconds)
+    // This ensures old failed attempts don't accumulate and block users forever
+     $cleanup_time = date('Y-m-d H:i:s', time() - 60); // 24 hours
     $conn->query("DELETE FROM login_attempts WHERE attempt_time < '$cleanup_time'");
 }
 ?>
